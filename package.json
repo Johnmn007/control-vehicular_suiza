@@ -1,0 +1,29 @@
+{
+  "name": "sicisv",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SICISV - Sistema de Control de Ingresos y Salidas de Vehículos",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "db:start": "./start_db.sh",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "dev:backend": "npm run dev --workspace=backend",
+    "build:frontend": "npm run build --workspace=frontend",
+    "build:backend": "npm run build --workspace=backend",
+    "db:generate": "npm run prisma:generate --workspace=backend",
+    "db:migrate": "npm run prisma:migrate --workspace=backend",
+    "db:seed": "npm run seed --workspace=backend",
+    "db:studio": "npm run prisma:studio --workspace=backend",
+    "db:setup": "npm run db:migrate && npm run db:seed",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "setup": "npm run docker:up && sleep 3 && npm install && npm run db:generate && npm run db:setup"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

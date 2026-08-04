@@ -1,0 +1,204 @@
+
+
+
+
+Elaboración de Vestidos Sostenibles a Partir de Fibra de Hoja de Plátano
+Programa de Estudio de Desarrollo de Sistemas de Información del Instituto de Educación Superior Tecnológico Público “Suiza”
+Proyecto de Innovación Tecnológica
+Equipo: 
+Belga Perea  Ríos
+Xxxxxxxxxxxxx
+Xxxxxxxxxxxxx
+Xxxxxxxxxxxxx
+xxxxxxxxxxxxx.
+Categoría: 
+Innovación Tecnológica en Moda Sostenible
+Asesor:   Ing. Junior López Silva
+Semestre:     V Ciclo
+Pucallpa – julio 2026
+
+
+ÍNDICE
+1
+ÍNDICE2
+I.Resumen de la Propuesta.3
+II.Justificación.3
+III.Objetivos4
+3.1Objetivo General:4
+3.2Objetivos Específicos:4
+IV.Marco Teórico y Referencial.5
+4.1.Antecedentes del Problema5
+V.Hipótesis.6
+VI.CRONOGRAMA DE ACTIVIDADES.6
+VII.Resultados y Contribuciones (Que se Espera Alcanzar).8
+VIII.Descripción Técnica y Metodológica9
+IX.REFERENCIAS BIBLIOGRÁFICAS.11
+X.ANEXOS.12
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Resumen de la Propuesta.
+El proyecto propone extraer fibras naturales de los tallos de plátano (hojas) y convertirlas en tejido para confeccionar vestidos ecológicos. Se desarrollará un proceso experimental que incluye la recolección de residuos de plátano, tratamiento químico-mecánico de las fibras y la confección de prototipos de vestimenta. La propuesta se sitúa en un nivel inicial de madurez tecnológica (TRL bajo): un TRL 3 corresponde a la validación de concepto en laboratorio. En este caso, ya se ha probado la extracción y tejido de fibras en pequeña escala, por lo que se avanza hacia prototipos vestibles y pruebas de funcionalidad. El perfil asocia el objetivo con metas ODS relevantes, destacando la innovación textil sostenible.
+
+
+Justificación.
+Concepto de moda sostenible con fibra vegetal de plátano. La industria textil tradicional es altamente contaminante: está en el segundo lugar como fuente de impacto ambiental global. En este contexto, reutilizar residuos agrícolas como el pseudotallo del plátano es crítico. Sólo el 12% del peso del banano es comestible; el restante 88% suele convertirse en desecho. Nuestra iniciativa transforma ese residuo en valor agregado: empleando fibra de plátano se puede obtener una tela biodegradable y de alto rendimiento, contribuyendo así a los ODS 12 (producción responsable) y ODS 13 (acción por el clima). Además, estudios han mostrado que la fibra de plátano supera al algodón convencional en criterios ecológicos claves: consume menos agua y tiene mayor capacidad de absorción. En síntesis, el proyecto aborda una necesidad real de innovar en moda sostenible usando materiales locales, reduciendo desechos y apoyando la economía circular, lo cual es pertinente y novedoso para el desarrollo social y ambiental
+ Objetivos
+3.1Objetivo General:  Desarrollar y evaluar un prototipo de vestido confeccionado con fibra de hoja de plátano, demostrando su viabilidad técnica, impacto ambiental reducido y aceptabilidad en la moda sostenible.
+3.2Objetivos Específicos:
+Extraer y procesar eficientemente la fibra de pseudotallos de plátano usando métodos mecanizados y químicos controlados.
+Caracterizar las propiedades fisicoquímicas y mecánicas de la fibra y del tejido resultante (resistencia a la tracción, absorción, biodegradabilidad.
+Optimizar el hilado y tejido manual/industrial para obtener una tela uniforme adecuada para vestimenta.
+Confeccionar prototipos de vestidos basados en el tejido de plátano y evaluar su desempeño funcional y estético.
+Analizar el potencial impacto social y económico (aceptación y escalabilidad) alineado con objetivos de desarrollo sostenible.
+
+Marco Teórico y Referencial.
+Antecedentes del Problema
+
+La literatura respalda la fibra de plátano como un material textil emergente de alta resistencia. Investigaciones recientes destacan que esta fibra vegetal es biodegradable, muy duradera y hasta más fuerte que el bambú o el algodón. Por ejemplo, Fernández (2024) señala que la fibra de plátano es “una de las fibras naturales más fuertes del mundo”. En general, la fibra está compuesta por celulosa, hemicelulosa y lignina, lo que la hace resistente a la tracción y al desgarro. Estudios comparativos indican que supera al algodón en términos de consumo de agua y capacidad de absorción, y también resiste fuego y bacterias.
+En cuanto a procesamiento, la extracción de fibras de pseudotallo de plátano se basa en protocolos conocidos: tras secar el material (por ejemplo 24 h al sol y luego 72 h en horno a 100°C) y triturarlo a polvo fino, se emplean tratamientos químicos para eliminar lignina. Johana-Restrepo et al. (2021) demuestran que con NaOH (5–30%) y/o H₂O₂ (8%) se obtienen fibras de celulosa útiles (30–49% de rendimiento). Estudios de abacá (Musa textilis) -planta pariente del plátano- confirman que sus fibras son suficientemente resistentes y aceptadas en diseño textil sostenible. De esta forma, el estado del arte sugiere que la fibra de plátano es una alternativa prometedora, pero faltan resultados aplicados específicos a vestuario, lo cual este proyecto busca subsanar
+
+Hipótesis.
+
+Se plantea la hipótesis de que los vestidos fabricados con fibra de hoja de plátano serán suficientemente resistentes y funcionales, con un impacto ambiental inferior al de materiales convencionales. Esto implica que, al completar el procesamiento propuesto, se obtendrá un textil usable para indumentaria, ya que la fibra de plátano posee alta resistencia mecánica. De cumplirse esta hipótesis, demostrará la viabilidad técnica de la innovación: la nueva tecnología (textil de plátano) proporcionará prendas estables y atractivas, cumpliendo los requisitos de confort y durabilidad esperados, al tiempo que promueve sustentabilidad.
+
+CRONOGRAMA DE ACTIVIDADES.
+Tabla 1 Etapa de estudio del proyecto
+PASO A SEGUIR
+  ABRIL 
+ Mayo
+Junio
+Julio
+Agosto
+Setiembre
+Revisión bibliográfica, diseño experimental y planificación. Preparación y limpieza de materia prima (pseudotallos) – Equipo completo. 
+X
+X
+
+
+
+
+Extracción de fibra: corte, secado (solar y horno) y molienda del pseudotallo.
+
+X
+X
+
+
+
+Tratamiento químico: pulping alcalino (NaOH) y oxidación (H₂O₂) de la fibra, seguido de lavado y secado.
+
+
+
+
+
+
+Hilado y tejido: cardado y hilado manual/semiautomático de la fibra, elaboración de tela en telar.
+
+
+X
+X
+
+
+Confección de prototipos: diseño de patrones y costura de vestidos – Investigador principal, diseñador de modas.
+
+
+
+X
+X
+
+Ensayos y caracterización: medición de propiedades (tensile test, absorción, transpirabilidad) – Todos los miembros (repartición por tareas).
+
+
+
+
+X
+
+Análisis de datos, redacción de informe y divulgación.
+
+
+
+
+
+X
+Nota. Elaboración Propia (2026)
+
+
+Resultados y Contribuciones (Que se Espera Alcanzar).
+
+Implicaciones prácticas: Se prevé obtener uno o más prototipos de vestidos funcionales fabricados con fibra de plátano. Estos servirán como prueba de concepto para la industria textil, evidenciando que residuos agrícolas (los tallos de plátano) pueden transformarse en prendas de moda sin perder calidad. Esto resolverá problemas ambientales (reducción de desechos y menor uso de agua) y sociales (nuevas oportunidades económicas). El uso de fibra de plátano, que demanda 88% menos materia prima al reutilizar residuos y requiere menos agua que el algodón, destaca su ventaja práctica. Se espera además demostrar que el textil resultante resiste adecuadamente (similar a fibras naturales) gracias a la alta resistencia intrínseca de la fibra.
+Valor heurístico/metodológico: Metodológicamente, este proyecto aportará protocolos detallados de obtención y procesamiento de la fibra de hoja de plátano (secado, extracción, hilado, etc.), ampliando el conocimiento existente. Al documentar empíricamente el rendimiento y propiedades de este nuevo material textil, se generará nuevo saber (datos de test físico-químicos, estudios de caso de diseño) que actualmente es escaso. Por tanto, la investigación inovará en metodologías para convertir biomasa en textil. Estos aportes metodológicos podrán guiar futuros trabajos en fibras alternativas y fortalecer la base teórica de la moda sostenible. En suma, el proyecto contribuye con soluciones prácticas (vestimenta ecoamigable) y avances de conocimiento (uso de fibras vegetales no convencionales), alineados con los Objetivos de Desarrollo Sostenible.
+
+ Descripción Técnica y Metodológica
+
+El proyecto seguirá los siguientes protocolos y recursos:
+Obtención de materia prima: Se recolectarán pseudotallos frescos de plátano. En laboratorio, se cortarán en secciones manejables, se secarán al sol (~24 h) y luego en horno a 100°C (~72 h) para eliminar la humedad. Las secciones secas se triturarán con molino de cuchillas hasta polvo fino.
+Tratamiento químico: El polvo se someterá a pulpeo alcalino: inmersión en solución de NaOH al 5–30% (en ratio sólido/agua ~0,25 g/ml) con agitación, temperatura controlada (~80–100°C) y tiempo (24–48 h), según protocolos similares. A continuación, opcionalmente se usará peróxido de hidrógeno (H₂O₂ al ~8%) para blanquear la fibra y eliminar lignina residual (24 h, temp. ambiente). Tras cada tratamiento, se filtrará, lavará con agua destilada hasta pH neutro y se secará en estufa a 60–80°C.
+Formación de fibra textil: Las fibras limpias resultantes se escurrirán y se cardarán manualmente. Se hilarán de forma artesanal (hilado por tracción) o con hiladora semiautomática para producir hilos continuos. Cada hilo se someterá a estirado/manual tensado para alinear las fibras y mejorar la resistencia.
+Tejido y confección: Se usarán telares manuales o telas pequeñas industriales para tejer los hilos en tela. El tejido plano resultante se cortará según patrones de diseño, y se confeccionarán vestidos mediante máquina de coser industrial. Los diseños incorporarán criterios de ergonomía y estética contemporánea.
+Instrumentación y ensayos: Se emplearán equipos de laboratorio: * horno industrial (secado), autoclave o baño maría (tratamientos químicos), molino de cuchillas, agitador magnético, así como instrumentos de caracterización: microscopio óptico (estructura fibrosa), tensiómetro (resistencia mecánica), espectrofotómetro (color), medidor de absorbencia y transpirabilidad. También se utilizarán equipos textiles: hiladora manual/industria, telar manual, máquina de coser**.
+Recursos humanos: El investigador principal supervisará diseño y análisis (50% tiempo), el co-investigador apoyará en extracción y ensayos (30%), y dos tesistas ejecutarán experimentos (40% cada uno) cubriendo tareas de laboratorio y confección. Cada actividad identificará su responsable principal y porcentaje de dedicación.
+Estos protocolos se basan en literatura previa: por ejemplo, Shimizu et al. (2018) secaron los pseudotallos 24 h al sol + 72 h a 100°C antes de moler. Johana-Restrepo et al. confirmaron la efectividad de procesos alcalinos y oxidativos para extraer celulosa. En este proyecto se combinarán y adaptarán esas técnicas al contexto de producción textil de vestidos.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+REFERENCIAS BIBLIOGRÁFICAS.
+
+ Coles, C. (2025, 18 de septiembre). Empresario utiliza cáscaras de plátano para fabricar ropa nueva y sostenible. Local10.com.
+Fernández, M. (2024, 24 de abril). La fibra del banano avanza como una alternativa sostenible en la industria textil. Meteored.
+Mera Guzmán, M. E., & Défaz González, D. F. (2025). El abacá como alternativa textil sostenible para el diseño de accesorios de moda juvenil femenina. Código Científico Revista de Investigación, 6(2), 1262–1288.
+NASA (Administración Nacional de Aeronáutica y del Espacio). (2023, 27 de septiembre). Technology Readiness Levels. National Aeronautics and Space Administration.
+Restrepo, H. J., Valencia-Duarte, J. S., Arriola-Villaseñor, E., Bedoya-Betancur, S., Valencia-González, J. D., & Ardila-Arias, A. N. (2021). Evaluación de la extracción de fibras de celulosa a partir de pseudotallos de banano con uso potencial en la industria papelera. Renewable Energy, Biomass & Sustainability, 3(1), 35–40.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ANEXOS.
+
+
+
+
+
+
+
+
+
