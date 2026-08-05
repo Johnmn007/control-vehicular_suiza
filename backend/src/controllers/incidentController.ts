@@ -53,14 +53,15 @@ export async function updateIncidentStatus(req: AuthenticatedRequest, res: Respo
   try {
     const { id } = req.params;
     const { status, resolutionNotes } = req.body;
+    const allowedStatuses = ['open', 'investigating', 'resolved'];
 
     if (!id) {
       res.status(400).json({ success: false, error: 'Incident ID is required' });
       return;
     }
 
-    if (!status) {
-      res.status(400).json({ success: false, error: 'Status is required' });
+    if (!status || !allowedStatuses.includes(status)) {
+      res.status(400).json({ success: false, error: `Status must be one of: ${allowedStatuses.join(', ')}` });
       return;
     }
 

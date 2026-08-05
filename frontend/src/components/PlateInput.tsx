@@ -117,11 +117,20 @@ export function PlateInput({
     }, 120);
   };
 
-  const closeScanner = () => {
+  const closeScanner = useCallback(() => {
     stopScanner();
     setIsScannerOpen(false);
     setHasCameraError(false);
-  };
+  }, [stopScanner]);
+
+  useEffect(() => {
+    if (!isScannerOpen) return;
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeScanner();
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isScannerOpen, closeScanner]);
 
   // Capturar frame, recortar zona central y enviar a backend OCR
   const handleCaptureOCR = async () => {

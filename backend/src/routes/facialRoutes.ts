@@ -1,9 +1,10 @@
 import { Router, Request, Response } from 'express';
+import { authenticate } from '../middleware/authMiddleware';
 
 const router = Router();
 const FACIAL_SERVICE_URL = process.env.FACIAL_SERVICE_URL || 'http://localhost:3002';
 
-router.post('/recognize', async (req: Request, res: Response) => {
+router.post('/recognize', authenticate, async (req: Request, res: Response) => {
   try {
     const response = await fetch(`${FACIAL_SERVICE_URL}/api/facial/recognize`, {
       method: 'POST',
@@ -17,7 +18,7 @@ router.post('/recognize', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/register-profile', async (req: Request, res: Response) => {
+router.post('/register-profile', authenticate, async (req: Request, res: Response) => {
   try {
     const response = await fetch(`${FACIAL_SERVICE_URL}/api/facial/register-profile`, {
       method: 'POST',

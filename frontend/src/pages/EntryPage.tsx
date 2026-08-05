@@ -8,6 +8,7 @@ import { ProgressStepper } from '../components/ProgressStepper';
 import { PlateInput } from '../components/PlateInput';
 import { ConfirmationCard } from '../components/ConfirmationCard';
 import { entryApi } from '../services/entryApi';
+import { facialApi } from '../services/facialApi';
 import type { RegistrationStep, CameraState } from '../types';
 
 interface EntryPageProps {
@@ -47,12 +48,8 @@ export function EntryPage({ onComplete }: EntryPageProps) {
     setRecognitionState('recognizing');
 
     try {
-      const res = await fetch('http://localhost:3002/api/facial/recognize', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: photo }),
-      });
-      const data = await res.json();
+      const res = await facialApi.recognize(photo);
+      const data = res as any;
 
       if (data.success && data.recognized && data.profile) {
         setRecognizedProfile(data.profile);

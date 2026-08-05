@@ -1,4 +1,5 @@
 const FACIAL_SERVICE_URL = process.env.FACIAL_SERVICE_URL || 'http://localhost:3002';
+const FACIAL_TIMEOUT = 15000;
 
 export class FacialClient {
   private baseUrl: string;
@@ -7,8 +8,18 @@ export class FacialClient {
     this.baseUrl = baseUrl || FACIAL_SERVICE_URL;
   }
 
+  private async fetchWithTimeout(url: string, init: RequestInit): Promise<Response> {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), FACIAL_TIMEOUT);
+    try {
+      return await fetch(url, { ...init, signal: controller.signal });
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  }
+
   async storeEmbedding(entryId: string, imageBase64: string): Promise<{ success: boolean; error?: string }> {
-    const res = await fetch(`${this.baseUrl}/api/facial/store`, {
+    const res = await this.fetchWithTimeout(`${this.baseUrl}/api/facial/store`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ entry_id: entryId, image: imageBase64 }),
@@ -24,7 +35,7 @@ export class FacialClient {
     confidence?: number;
     error?: string;
   }> {
-    const res = await fetch(`${this.baseUrl}/api/facial/compare`, {
+    const res = await this.fetchWithTimeout(`${this.baseUrl}/api/facial/compare`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ entry_id: entryId, image: imageBase64 }),
@@ -41,7 +52,7 @@ export class FacialClient {
     vehicle_photo: string;
     driver_photo: string;
   }): Promise<{ success: boolean; profile_id?: string; error?: string }> {
-    const res = await fetch(`${this.baseUrl}/api/facial/register-profile`, {
+    const res = await this.fetchWithTimeout(`${this.baseUrl}/api/facial/register-profile`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),

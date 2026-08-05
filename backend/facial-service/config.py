@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str = "postgresql://sicisv:sicisv_dev@localhost:5432/sicisv"
     HOST: str = "0.0.0.0"
     PORT: int = 3002
-    SIMILARITY_THRESHOLD: float = 0.35
+    SIMILARITY_THRESHOLD: float = 0.45
 
     model_config = {"env_file": ".env"}
 

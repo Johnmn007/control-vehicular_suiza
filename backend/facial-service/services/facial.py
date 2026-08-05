@@ -1,10 +1,13 @@
 import io
+import logging
 import numpy as np
 from PIL import Image
 from insightface.app import FaceAnalysis
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from config import settings
+
+logger = logging.getLogger(__name__)
 
 
 class FacialService:
@@ -14,7 +17,7 @@ class FacialService:
             root="~/.insightface/models",
             providers=["CPUExecutionProvider"],
         )
-        self.app.prepare(ctx_id=0, det_size=(320, 320))
+        self.app.prepare(ctx_id=0, det_size=(640, 640))
         self.SIMILARITY_THRESHOLD = settings.SIMILARITY_THRESHOLD
 
     def _get_embedding(self, image_data: bytes) -> np.ndarray | None:
@@ -27,7 +30,8 @@ class FacialService:
             embedding = faces[0].embedding.astype(np.float32)
             norm = np.linalg.norm(embedding)
             return (embedding / norm) if norm > 0 else None
-        except Exception:
+        except Exception as e:
+            logger.error(f"Error extracting embedding: {e}")
             return None
 
     def _embedding_to_str(self, emb: np.ndarray) -> str:
@@ -51,6 +55,8 @@ class FacialService:
                     'UPDATE "Entry" SET "driverEmbedding" = %s WHERE "id" = %s',
                     (result["embedding"], entry_id),
                 )
+                if cur.rowcount == 0:
+                    return {"success": False, "error": f"Entry {entry_id} not found"}
             conn.commit()
             return {"success": True, "embedding": result["embedding"]}
         finally:
@@ -172,8 +178,8 @@ class FacialService:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
                 cur.execute("""
                     INSERT INTO "KnownDriver" ("fullName", "licensePlate", "vehiclePhoto",
-                                               "driverPhoto", "embedding")
-                    VALUES (%s, %s, %s, %s, %s)
+                                               "driverPhoto", "embedding", "updatedAt")
+                    VALUES (%s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
                     RETURNING id
                 """, (full_name, license_plate, vehicle_photo, driver_photo, emb_str))
                 row = cur.fetchone()

@@ -140,15 +140,17 @@ export function LoginPage({ onLogin }: LoginPageProps) {
               )}
             </button>
 
-            {/* Demo credentials hint */}
-            <div className="mt-6 p-4 bg-slate-700/50 rounded-xl">
-              <p className="text-xs text-slate-400 text-center mb-2">Credenciales de desarrollo:</p>
-              <div className="space-y-1 text-sm text-center">
-                <div className="text-slate-300">Vigilante: <code className="text-blue-400">vigilante</code> / <code className="text-blue-400">guard123</code></div>
-                <div className="text-slate-300">Soporte: <code className="text-blue-400">soporte</code> / <code className="text-blue-400">support123</code></div>
-                <div className="text-slate-300">Admin: <code className="text-blue-400">admin</code> / <code className="text-blue-400">admin123</code></div>
+            {/* Demo credentials hint - only in development */}
+            {import.meta.env.DEV && (
+              <div className="mt-6 p-4 bg-slate-700/50 rounded-xl">
+                <p className="text-xs text-slate-400 text-center mb-2">Credenciales de desarrollo:</p>
+                <div className="space-y-1 text-sm text-center">
+                  <div className="text-slate-300">Vigilante: <code className="text-blue-400">vigilante</code> / <code className="text-blue-400">guard123</code></div>
+                  <div className="text-slate-300">Soporte: <code className="text-blue-400">soporte</code> / <code className="text-blue-400">support123</code></div>
+                  <div className="text-slate-300">Admin: <code className="text-blue-400">admin</code> / <code className="text-blue-400">admin123</code></div>
+                </div>
               </div>
-            </div>
+            )}
           </form>
         </div>
 

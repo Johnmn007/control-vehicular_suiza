@@ -5,7 +5,7 @@ import type { AuthenticatedRequest } from '../types';
 export async function getStats(req: AuthenticatedRequest, res: Response): Promise<void> {
   try {
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    today.setUTCHours(0, 0, 0, 0);
 
     const [totalEntries, totalExits, totalIncidents, unresolvedIncidents, entriesToday, exitsToday] =
       await Promise.all([
@@ -40,7 +40,7 @@ export async function getStats(req: AuthenticatedRequest, res: Response): Promis
 
 export async function getRecent(req: AuthenticatedRequest, res: Response): Promise<void> {
   try {
-    const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
+    const limit = req.query.limit ? Math.min(100, parseInt(req.query.limit as string) || 10) : 10;
 
     const [recentEntries, recentExits, recentIncidents] = await Promise.all([
       prisma.entry.findMany({

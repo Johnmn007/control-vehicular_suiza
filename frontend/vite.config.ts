@@ -16,7 +16,7 @@ export default defineConfig({
     host: true, // Escuchar en todas las interfaces de red local (ej. dispositivos móviles)
     proxy: {
       '/api': {
-        target: 'http://localhost:3001',
+        target: 'http://backend:3001',
         changeOrigin: true,
       },
     },

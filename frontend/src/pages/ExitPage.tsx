@@ -48,7 +48,7 @@ export function ExitPage({ onComplete }: ExitPageProps) {
     }
   }, [pendingLoaded]);
 
-  useState(() => { loadPending(); });
+  useEffect(() => { loadPending(); }, [loadPending]);
 
   const searchVehicle = useCallback(async () => {
     if (!searchPlate || searchPlate.length < 2) {
@@ -117,9 +117,9 @@ export function ExitPage({ onComplete }: ExitPageProps) {
         if (onComplete) onComplete();
       }, 4000);
     } catch (err: any) {
-      setDriverMatch(false);
+      setDriverMatch(null);
       setVerificationState('driver_mismatch');
-      setError(err.message || 'Error en reconocimiento facial');
+      setError(err.message || 'Error en el procesamiento de la salida');
     }
   }, [foundEntry, setExitSearchResult]);
 
