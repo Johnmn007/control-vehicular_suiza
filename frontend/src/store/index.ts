@@ -115,7 +115,7 @@ export const useVehicleStore = create<VehicleStore>()(
       },
       setLicensePlate: (plate) => {
         set({ licensePlate: plate });
-        if (plate.length >= 5) {
+        if (plate.length >= 2) {
           get().updateStepStatus('plate', 'captured');
         }
       },

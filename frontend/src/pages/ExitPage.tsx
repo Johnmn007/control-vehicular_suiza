@@ -51,7 +51,7 @@ export function ExitPage({ onComplete }: ExitPageProps) {
   useState(() => { loadPending(); });
 
   const searchVehicle = useCallback(async () => {
-    if (!searchPlate || searchPlate.length < 5) {
+    if (!searchPlate || searchPlate.length < 2) {
       setError('Ingrese una placa válida');
       return;
     }
@@ -250,11 +250,11 @@ export function ExitPage({ onComplete }: ExitPageProps) {
 
             <button
               onClick={searchVehicle}
-              disabled={!searchPlate || searchPlate.length < 5 || isLoading}
+              disabled={!searchPlate || searchPlate.length < 2 || isLoading}
               className={`
                 w-full mt-6 flex items-center justify-center gap-2 py-4 rounded-xl
                 font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed
-                ${searchPlate.length >= 5
+                ${searchPlate.length >= 2
                   ? 'bg-blue-600 hover:bg-blue-500 text-white'
                   : 'bg-slate-700 text-slate-400'
                 }

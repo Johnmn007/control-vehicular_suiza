@@ -143,7 +143,7 @@ export function EntryPage({ onComplete }: EntryPageProps) {
       case 'driver':
         return stepStatus.driver === 'captured';
       case 'plate':
-        return stepStatus.plate === 'captured' && licensePlate.length >= 5;
+        return stepStatus.plate === 'captured' && licensePlate.length >= 2;
       case 'confirm':
         return vehiclePhoto && driverPhoto && licensePlate;
       default:

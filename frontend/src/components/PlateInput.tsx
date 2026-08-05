@@ -38,17 +38,17 @@ export function PlateInput({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
-  // Validar formato de placa (formato standard: XXX-0000 o XXX-000)
+  // Validar formato de placa (formatos flexibles: ABC-1234, 0A-0000, 0000, 0A, etc.)
   const validatePlate = useCallback((plate: string): boolean => {
-    if (!plate || plate.length < 5) return false;
+    if (!plate || plate.length < 2) return false;
 
-    // Formatos comunes: 3 letras, guion, 3 o 4 números (ej: ABC-1234 o ABC-123)
-    const pattern = /^[A-Z]{3}-\d{3,4}$/;
+    // Acepta entre 2 y 10 caracteres alfanuméricos (letras y números, con o sin guion)
+    const pattern = /^[A-Z0-9]{2,10}$/;
     return pattern.test(plate.toUpperCase());
   }, []);
 
   useEffect(() => {
-    if (value.length >= 6) {
+    if (value.length >= 2) {
       const valid = validatePlate(value);
       setIsValid(valid);
     } else if (value.length === 0) {
@@ -60,13 +60,8 @@ export function PlateInput({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let rawValue = e.target.value.toUpperCase();
-    // Solo permitir letras y números (el guion lo agregamos nosotros)
-    let digitsAndLetters = rawValue.replace(/[^A-Z0-9]/g, '');
-    
-    let formatted = digitsAndLetters;
-    if (digitsAndLetters.length > 3) {
-      formatted = digitsAndLetters.substring(0, 3) + '-' + digitsAndLetters.substring(3);
-    }
+    // Solo permitir letras, números y guiones (el usuario escribe el formato que ve en la placa)
+    let formatted = rawValue.replace(/[^A-Z0-9\-]/g, '');
     
     onChange(formatted);
   };
@@ -256,8 +251,8 @@ export function PlateInput({
             }}
             onBlur={() => setTimeout(() => setShowRecent(false), 200)}
             disabled={disabled}
-            placeholder="Ej: ABC-1234"
-            maxLength={10}
+            placeholder="Ej: ABC-1234, 0A-0000, 0000"
+            maxLength={12}
             className={`
               w-full pl-14 pr-12 py-4 text-2xl font-mono font-bold
               rounded-xl border-2 transition-all duration-200
@@ -327,10 +322,10 @@ export function PlateInput({
 
       {/* Mensajes de validación */}
       <div className="mt-2 min-h-6">
-        {isValid === false && value.length >= 5 && (
+        {isValid === false && value.length >= 2 && (
           <p className="text-sm text-red-400 flex items-center gap-1.5 font-medium">
             <AlertCircle className="w-4 h-4 text-red-400" />
-            Formato de placa inválido. Ejemplo: ABC-1234
+            Formato de placa inválido. Use entre 2 y 10 caracteres alfanuméricos.
           </p>
         )}
         {isValid === true && (
@@ -343,7 +338,7 @@ export function PlateInput({
 
       {/* Instrucciones de ayuda */}
       <p className="mt-2.5 text-xs text-slate-500 leading-normal">
-        Ingrese los caracteres alfanuméricos tal como aparecen en la placa física. Ejemplo: 3 letras, guion y 4 números (ej: ABC-1234).
+        Ingrese los caracteres tal como aparecen en la placa vehicular. Formatos comunes: ABC-1234, 0A-0000, 0000, 0A, etc.
       </p>
 
       {/* ==================================================== */}
