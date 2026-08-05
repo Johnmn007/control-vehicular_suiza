@@ -38,17 +38,41 @@ export function PlateInput({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
-  // Validar formato de placa (formatos flexibles: ABC-1234, 0A-0000, 0000, 0A, etc.)
+  // Validar formato de placa venezolana
+  // Formatos soportados: ABC-1234, 1U-3425, U2-5674, 5463-2U, U1-89675, AFB-546, O0-34256, ABC1234, etc.
   const validatePlate = useCallback((plate: string): boolean => {
-    if (!plate || plate.length < 2) return false;
+    if (!plate) return false;
+    const p = plate.toUpperCase().trim();
 
-    // Acepta entre 2 y 10 caracteres alfanuméricos (letras y números, con o sin guion)
-    const pattern = /^[A-Z0-9]{2,10}$/;
-    return pattern.test(plate.toUpperCase());
+    // Solo permitir letras, números y guiones
+    if (!/^[A-Z0-9\-]+$/.test(p)) return false;
+
+    // Longitud total: 4 a 12 caracteres
+    if (p.length < 4 || p.length > 12) return false;
+
+    // Sin guiones consecutios ni al inicio/fin
+    if (p.startsWith('-') || p.endsWith('-') || p.includes('--')) return false;
+
+    // Debe contener al menos una letra
+    if (!/[A-Z]/.test(p)) return false;
+
+    // Si tiene guión, validar estructura de dos partes
+    if (p.includes('-')) {
+      const parts = p.split('-');
+      if (parts.length !== 2) return false;
+      const [part1, part2] = parts;
+      // Cada parte debe tener 1-6 caracteres
+      if (part1.length < 1 || part1.length > 6) return false;
+      if (part2.length < 2 || part2.length > 6) return false;
+      // Cada parte solo alfanumérico
+      if (!/^[A-Z0-9]+$/.test(part1) || !/^[A-Z0-9]+$/.test(part2)) return false;
+    }
+
+    return true;
   }, []);
 
   useEffect(() => {
-    if (value.length >= 2) {
+    if (value.length >= 4) {
       const valid = validatePlate(value);
       setIsValid(valid);
     } else if (value.length === 0) {
@@ -260,7 +284,7 @@ export function PlateInput({
             }}
             onBlur={() => setTimeout(() => setShowRecent(false), 200)}
             disabled={disabled}
-            placeholder="Ej: ABC-1234, 0A-0000, 0000"
+            placeholder="Ej: ABC-1234, 1U-3425, U2-5674"
             maxLength={12}
             className={`
               w-full pl-14 pr-12 py-4 text-2xl font-mono font-bold
@@ -331,10 +355,10 @@ export function PlateInput({
 
       {/* Mensajes de validación */}
       <div className="mt-2 min-h-6">
-        {isValid === false && value.length >= 2 && (
+        {isValid === false && value.length >= 4 && (
           <p className="text-sm text-red-400 flex items-center gap-1.5 font-medium">
             <AlertCircle className="w-4 h-4 text-red-400" />
-            Formato de placa inválido. Use entre 2 y 10 caracteres alfanuméricos.
+            Formato de placa inválido (ej: ABC-1234, 1U-3425, U2-5674)
           </p>
         )}
         {isValid === true && (
