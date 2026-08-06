@@ -1,6 +1,6 @@
 // Base API client for communicating with the SICISV backend
 
-const API_BASE = '/api';
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 interface RequestOptions {
   method?: string;
