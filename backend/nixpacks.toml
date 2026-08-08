@@ -1,5 +1,0 @@
-[phases.setup]
-nixPkgs = ["nodejs_22"]
-
-[start]
-cmd = "npx prisma generate && npx tsc && npx prisma migrate deploy && node dist/server.js"
