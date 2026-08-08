@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 class FacialService:
     def __init__(self):
         self.app = FaceAnalysis(
-            name="buffalo_l",
+            name="buffalo_s",
             root="~/.insightface/models",
             providers=["CPUExecutionProvider"],
         )

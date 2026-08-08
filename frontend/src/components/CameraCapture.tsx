@@ -54,7 +54,7 @@ export function CameraCapture({ mode, onCapture, state, onStateChange, autoCaptu
 
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
-          facingMode: mode === 'driver' ? 'user' : facingMode,
+          facingMode: { ideal: 'environment' },
           width: { ideal: 1920 },
           height: { ideal: 1080 },
         },
@@ -175,7 +175,7 @@ export function CameraCapture({ mode, onCapture, state, onStateChange, autoCaptu
       {/* Contenedor de cámara */}
       <div
         className={`
-          relative w-full aspect-video rounded-xl overflow-hidden
+          relative w-full aspect-[4/3] md:aspect-video rounded-xl overflow-hidden
           ${state.status === 'error' ? 'border-2 border-red-500' : 'border border-slate-200'}
           ${state.status === 'success' ? 'ring-2 ring-green-500' : ''}
           bg-slate-900

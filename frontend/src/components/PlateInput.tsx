@@ -108,7 +108,7 @@ export function PlateInput({
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { 
-          facingMode: 'environment',
+          facingMode: { ideal: 'environment' },
           width: { ideal: 640 },
           height: { ideal: 480 } 
         },
@@ -397,7 +397,7 @@ export function PlateInput({
             </div>
 
             {/* Pantalla del Reproductor / Visor del Escáner */}
-            <div className="relative w-full aspect-video bg-slate-950 flex items-center justify-center overflow-hidden border-b border-slate-850">
+            <div className="relative w-full aspect-[4/3] md:aspect-video bg-slate-950 flex items-center justify-center overflow-hidden border-b border-slate-850">
               
               {/* Stream de Video en vivo */}
               <video 
