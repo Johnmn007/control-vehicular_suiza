@@ -66,7 +66,7 @@ export function ExitPage({ onComplete }: ExitPageProps) {
   }, []);
 
   // Search pending entry by plate
-  const searchPendingEntry = useCallback(async (plate: string) => {
+  const searchPendingEntry = useCallback(async (plate: string, isManualFallback: boolean = false) => {
     setVerificationState('searching');
     setIsLoading(true);
     setError(null);
@@ -81,7 +81,11 @@ export function ExitPage({ onComplete }: ExitPageProps) {
           guardName: entry.guard?.fullName || '',
           hasExit: false,
         });
-        setVerificationState('found');
+        if (isManualFallback) {
+          setVerificationState('driver_mismatch');
+        } else {
+          setVerificationState('found');
+        }
       } else {
         setVerificationState('not_found');
         setError(`No se encontró entrada activa para la placa ${plate}`);
@@ -100,7 +104,7 @@ export function ExitPage({ onComplete }: ExitPageProps) {
       setError('Ingrese una placa válida (mínimo 4 caracteres)');
       return;
     }
-    searchPendingEntry(searchPlate);
+    searchPendingEntry(searchPlate, true);
   }, [searchPlate, searchPendingEntry]);
 
   // Process exit
@@ -244,15 +248,6 @@ export function ExitPage({ onComplete }: ExitPageProps) {
             />
           </div>
 
-          <div className="text-center">
-            <button
-              onClick={goToManualSearch}
-              className="text-slate-400 hover:text-slate-300 text-sm flex items-center gap-2 mx-auto transition-colors"
-            >
-              <Search className="w-4 h-4" />
-              Buscar por placa manualmente
-            </button>
-          </div>
         </div>
       )}
 
