@@ -16,6 +16,7 @@ COPY tsconfig.json ./
 COPY src ./src
 RUN npx tsc
 
+COPY .railway-rebuild ./
 COPY start.sh ./
 RUN chmod +x start.sh
 
