@@ -16,8 +16,6 @@ COPY tsconfig.json ./
 COPY src ./src
 RUN npx tsc
 
-COPY .railway-rebuild ./
-
 EXPOSE 3001
 
-ENTRYPOINT ["node", "dist/server-diagnostic.js"]
+CMD ["sh", "-c", "npx prisma migrate deploy && node dist/server.js"]
