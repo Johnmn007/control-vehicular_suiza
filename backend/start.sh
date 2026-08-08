@@ -1,9 +1,9 @@
 #!/bin/sh
-set -e
+set -ex
 
-echo "=== Running Prisma migrations ==="
-npx prisma migrate deploy
-echo "=== Migrations complete ==="
+echo "=== Running Prisma migrations ===" >&2
+npx prisma migrate deploy 2>&1
+echo "=== Migrations complete ===" >&2
 
-echo "=== Starting server ==="
-node dist/server.js
+echo "=== Starting server ===" >&2
+exec node dist/server.js 2>&1
