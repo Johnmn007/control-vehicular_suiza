@@ -17,9 +17,7 @@ COPY src ./src
 RUN npx tsc
 
 COPY .railway-rebuild ./
-COPY start.sh ./
-RUN chmod +x start.sh
 
 EXPOSE 3001
 
-CMD ["./start.sh"]
+ENTRYPOINT ["node", "dist/server-diagnostic.js"]
