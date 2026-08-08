@@ -320,6 +320,7 @@ export function PlateInput({
           type="button"
           disabled={disabled}
           className={`
+            hidden /* TODO: Habilitar cuando se implemente OCR real */
             px-5 py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 border shadow-lg cursor-pointer
             ${disabled
               ? 'bg-slate-800 text-slate-500 border-slate-700 cursor-not-allowed opacity-50'
