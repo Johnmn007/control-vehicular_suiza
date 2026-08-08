@@ -1,9 +1,9 @@
 #!/bin/sh
 set -ex
 
-echo "=== Running Prisma migrations ===" >&2
-npx prisma migrate deploy 2>&1
-echo "=== Migrations complete ===" >&2
-
-echo "=== Starting server ===" >&2
-exec node dist/server.js 2>&1
+echo "=== DIAGNOSTIC START ===" >&2
+echo "PWD: $(pwd)" >&2
+echo "ls:" >&2
+ls -la /app/ >&2
+echo "=== Running diagnostic server ===" >&2
+exec node dist/server-diagnostic.js 2>&1
