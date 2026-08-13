@@ -3,6 +3,7 @@
 
 import { Check } from 'lucide-react';
 import type { RegistrationStep } from '../types';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface Step {
   id: RegistrationStep;
@@ -28,6 +29,7 @@ interface ProgressStepperProps {
 }
 
 export function ProgressStepper({ currentStep, stepStatus, orientation = 'horizontal' }: ProgressStepperProps) {
+  const { theme } = useTheme();
   const currentIndex = steps.findIndex(s => s.id === currentStep);
 
   const getStepStatus = (stepId: RegistrationStep): 'completed' | 'active' | 'pending' | 'error' => {
@@ -69,7 +71,7 @@ export function ProgressStepper({ currentStep, stepStatus, orientation = 'horizo
                   className={`
                     absolute left-[22px] top-11 bottom-[-24px] w-0.5 z-0
                     transition-colors duration-300
-                    ${status === 'completed' ? 'bg-green-500' : 'bg-slate-700'}
+                    ${status === 'completed' ? 'bg-green-500' : theme === 'dark' ? 'bg-slate-700' : 'bg-slate-300'}
                   `}
                 />
               )}
@@ -88,7 +90,7 @@ export function ProgressStepper({ currentStep, stepStatus, orientation = 'horizo
                     : ''
                   }
                   ${status === 'pending' 
-                    ? 'bg-slate-800 border-slate-700 text-slate-500' 
+                    ? theme === 'dark' ? 'bg-slate-800 border-slate-700 text-slate-500' : 'bg-slate-100 border-slate-300 text-slate-400' 
                     : ''
                   }
                   ${status === 'error' 
@@ -111,13 +113,13 @@ export function ProgressStepper({ currentStep, stepStatus, orientation = 'horizo
                     text-sm font-semibold tracking-wide truncate
                     ${status === 'active' ? 'text-blue-400' : ''}
                     ${status === 'completed' ? 'text-green-400 font-medium' : ''}
-                    ${status === 'pending' ? 'text-slate-400' : ''}
+                    ${status === 'pending' ? 'text-muted-foreground' : ''}
                     ${status === 'error' ? 'text-red-400' : ''}
                   `}
                 >
                   {step.label}
                 </span>
-                <span className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold mt-0.5">
+                <span className="text-[10px] text-muted-foreground/70 uppercase tracking-wider font-semibold mt-0.5">
                   {status === 'completed' ? 'Completado' : status === 'active' ? 'En progreso' : 'Pendiente'}
                 </span>
               </div>
@@ -147,7 +149,7 @@ export function ProgressStepper({ currentStep, stepStatus, orientation = 'horizo
                     transition-all duration-300
                     ${status === 'completed' ? 'bg-green-500 text-white' : ''}
                     ${status === 'active' ? 'bg-blue-600 text-white ring-4 ring-blue-600/20' : ''}
-                    ${status === 'pending' ? 'bg-slate-700 text-slate-400' : ''}
+                    ${status === 'pending' ? theme === 'dark' ? 'bg-slate-700 text-slate-400' : 'bg-slate-200 text-slate-600' : ''}
                     ${status === 'error' ? 'bg-red-500 text-white' : ''}
                   `}
                 >
@@ -164,7 +166,7 @@ export function ProgressStepper({ currentStep, stepStatus, orientation = 'horizo
                     mt-2 text-sm font-medium whitespace-nowrap
                     ${status === 'active' ? 'text-blue-400' : ''}
                     ${status === 'completed' ? 'text-green-400' : ''}
-                    ${status === 'pending' ? 'text-slate-500' : ''}
+                    ${status === 'pending' ? 'text-muted-foreground' : ''}
                     ${status === 'error' ? 'text-red-400' : ''}
                   `}
                 >
@@ -178,7 +180,7 @@ export function ProgressStepper({ currentStep, stepStatus, orientation = 'horizo
                   className={`
                     w-16 h-1 mx-4 rounded
                     transition-colors duration-300
-                    ${status === 'completed' ? 'bg-green-500' : 'bg-slate-700'}
+                    ${status === 'completed' ? 'bg-green-500' : theme === 'dark' ? 'bg-slate-700' : 'bg-slate-300'}
                   `}
                 />
               )}
@@ -193,13 +195,13 @@ export function ProgressStepper({ currentStep, stepStatus, orientation = 'horizo
           <span className="text-blue-400 font-semibold">
             Paso {currentIndex + 1} de {steps.length}
           </span>
-          <span className="text-slate-400">
+          <span className="text-muted-foreground">
             {steps[currentIndex].label}
           </span>
         </div>
 
         {/* Barra de progreso */}
-        <div className="mt-3 h-2 bg-slate-700 rounded-full overflow-hidden">
+        <div className={`mt-3 h-2 rounded-full overflow-hidden ${theme === 'dark' ? 'bg-slate-700' : 'bg-slate-200'}`}>
           <div
             className="h-full bg-gradient-to-r from-blue-600 to-blue-400 transition-all duration-500"
             style={{ width: `${((currentIndex + 1) / steps.length) * 100}%` }}
@@ -218,7 +220,7 @@ export function ProgressStepper({ currentStep, stepStatus, orientation = 'horizo
                   w-3 h-3 rounded-full transition-all duration-300
                   ${status === 'completed' ? 'bg-green-500' : ''}
                   ${status === 'active' ? 'bg-blue-500 scale-125' : ''}
-                  ${status === 'pending' ? 'bg-slate-600' : ''}
+                  ${status === 'pending' ? theme === 'dark' ? 'bg-slate-600' : 'bg-slate-300' : ''}
                   ${status === 'error' ? 'bg-red-500' : ''}
                 `}
               />

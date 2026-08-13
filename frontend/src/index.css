@@ -5,6 +5,50 @@
 @layer base {
   :root {
     --radius: 0.5rem;
+
+    /* Light theme (default) */
+    --background: 210 20% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 210 40% 96%;
+    --primary-foreground: 222 47% 11%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 222 47% 11%;
+  }
+
+  .dark {
+    /* Dark theme */
+    --background: 222 47% 7%;
+    --foreground: 210 40% 98%;
+    --card: 222 33% 10%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 33% 10%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 222 33% 10%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 222 33% 10%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 222 33% 10%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 222 33% 10%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 212 27% 84%;
   }
 
   * {
@@ -18,7 +62,7 @@
   }
 
   body {
-    @apply bg-slate-900 text-slate-100;
+    @apply bg-background text-foreground;
     margin: 0;
     padding: 0;
   }
@@ -30,15 +74,15 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-slate-800;
+    @apply bg-muted;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-slate-600 rounded-full;
+    @apply bg-slate-400 dark:bg-slate-600 rounded-full;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-slate-500;
+    @apply bg-slate-500 dark:bg-slate-500;
   }
 
   /* Ocultar scrollbar pero mantener funcionalidad */
@@ -60,7 +104,7 @@
 
   /* Botón secundario */
   .btn-secondary {
-    @apply bg-slate-700 hover:bg-slate-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200;
+    @apply bg-muted hover:bg-slate-200 dark:hover:bg-slate-600 text-foreground font-semibold py-3 px-6 rounded-xl transition-all duration-200 border border-border;
   }
 
   /* Botón de éxito */
@@ -75,12 +119,12 @@
 
   /* Input */
   .input {
-    @apply w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all;
+    @apply w-full px-4 py-3 bg-background border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all;
   }
 
   /* Card */
   .card {
-    @apply bg-slate-800 rounded-xl p-6 shadow-lg;
+    @apply bg-card rounded-xl p-6 shadow-lg border border-border;
   }
 }
 
@@ -117,7 +161,7 @@
 
   /* Efecto glass */
   .glass {
-    @apply bg-slate-800/80 backdrop-blur-xl;
+    @apply bg-card/80 backdrop-blur-xl border border-border;
   }
 
   /* Transiciones */
@@ -176,10 +220,10 @@
 
 /* Focus visible para accesibilidad */
 *:focus-visible {
-  @apply outline-none ring-2 ring-blue-500 ring-offset-2 ring-offset-slate-900;
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2 ring-offset-background;
 }
 
 /* Selection */
 ::selection {
-  @apply bg-blue-500/30 text-white;
+  @apply bg-blue-500/30 text-foreground;
 }

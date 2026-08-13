@@ -2,6 +2,7 @@
 
 import { X, Clock, User, AlertTriangle, Shield, CheckCircle, MapPin, HardDrive } from 'lucide-react';
 import { VehicleStatusBadge } from './StatusBadge';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface Guard {
   id: string;
@@ -54,6 +55,7 @@ interface RecordDetailModalProps {
 }
 
 export function RecordDetailModal({ isOpen, onClose, entry }: RecordDetailModalProps) {
+  const { theme } = useTheme();
   if (!isOpen || !entry) return null;
 
   const hasExit = entry.exits && entry.exits.length > 0;
@@ -71,28 +73,28 @@ export function RecordDetailModal({ isOpen, onClose, entry }: RecordDetailModalP
   };
 
   return (
-    <div className="fixed inset-0 bg-black/75 backdrop-blur-md flex items-center justify-center z-50 p-4 transition-all duration-300">
+    <div className="fixed inset-0 bg-black/50 dark:bg-black/75 backdrop-blur-md flex items-center justify-center z-50 p-4 transition-all duration-300">
       <div 
-        className="bg-slate-900 border border-slate-800 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-in fade-in zoom-in duration-200"
+        className="bg-card border border-border rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-in fade-in zoom-in duration-200"
         role="dialog"
         aria-modal="true"
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-800 bg-slate-900/50 sticky top-0 z-10 backdrop-blur-md">
+        <div className="flex items-center justify-between p-6 border-b border-border bg-card/50 sticky top-0 z-10 backdrop-blur-md">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-slate-800 rounded-xl flex items-center justify-center border border-slate-700/50 text-blue-400">
+            <div className={`w-10 h-10 ${theme === 'dark' ? 'bg-slate-800' : 'bg-slate-100'} rounded-xl flex items-center justify-center border border-border text-blue-400`}>
               <Shield className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+              <h2 className="text-xl font-bold text-foreground tracking-tight flex items-center gap-2">
                 Reporte de Control Vehicular
               </h2>
-              <p className="text-xs text-slate-400 mt-0.5">ID Registro: {entry.id}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">ID Registro: {entry.id}</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors border border-transparent hover:border-slate-700"
+            className={`p-2 text-muted-foreground hover:text-foreground hover:${theme === 'dark' ? 'bg-slate-800' : 'bg-slate-100'} rounded-lg transition-colors border border-transparent hover:border-border`}
             title="Cerrar"
           >
             <X className="w-5 h-5" />
@@ -102,15 +104,15 @@ export function RecordDetailModal({ isOpen, onClose, entry }: RecordDetailModalP
         {/* Modal Content */}
         <div className="p-6 space-y-8">
           {/* Top Banner (Plate and overall status) */}
-          <div className="bg-slate-800/40 border border-slate-800 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className={`${theme === 'dark' ? 'bg-slate-800/40' : 'bg-slate-50'} border border-border rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4`}>
             <div>
-              <span className="text-sm text-slate-400 font-medium">Placa del Vehículo</span>
-              <div className="text-4xl font-mono font-bold text-white tracking-widest mt-1">
+              <span className="text-sm text-muted-foreground font-medium">Placa del Vehículo</span>
+              <div className="text-4xl font-mono font-bold text-foreground tracking-widest mt-1">
                 {entry.licensePlate}
               </div>
             </div>
             <div className="flex flex-col items-start sm:items-end gap-1.5">
-              <span className="text-xs text-slate-400 font-medium">Estado del Vehículo</span>
+              <span className="text-xs text-muted-foreground font-medium">Estado del Vehículo</span>
               <VehicleStatusBadge hasExit={hasExit} />
             </div>
           </div>
@@ -118,23 +120,23 @@ export function RecordDetailModal({ isOpen, onClose, entry }: RecordDetailModalP
           {/* Core Info (Grid Side-by-Side: Entry and Exit) */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Entry Column */}
-            <div className="bg-slate-850 border border-slate-800/80 rounded-2xl p-6 space-y-6">
-              <div className="border-b border-slate-800 pb-3 flex items-center gap-2">
+            <div className={`${theme === 'dark' ? 'bg-slate-850' : 'bg-slate-50'} border border-border rounded-2xl p-6 space-y-6`}>
+              <div className="border-b border-border pb-3 flex items-center gap-2">
                 <div className="w-2.5 h-2.5 rounded-full bg-blue-500"></div>
-                <h3 className="font-bold text-white text-lg">Detalles de Ingreso</h3>
+                <h3 className="font-bold text-foreground text-lg">Detalles de Ingreso</h3>
               </div>
 
               {/* Photos */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <span className="text-xs text-slate-400 block mb-2 font-medium">Foto del Vehículo</span>
-                  <div className="aspect-video bg-slate-800 rounded-xl overflow-hidden border border-slate-700/50 hover:border-slate-600 transition-colors">
+                  <span className="text-xs text-muted-foreground block mb-2 font-medium">Foto del Vehículo</span>
+                  <div className={`aspect-video ${theme === 'dark' ? 'bg-slate-800' : 'bg-slate-100'} rounded-xl overflow-hidden border border-border hover:border-border transition-colors`}>
                     <img src={entry.vehiclePhoto} alt="Vehículo Ingreso" className="w-full h-full object-cover hover:scale-105 transition-transform duration-350" />
                   </div>
                 </div>
                 <div>
-                  <span className="text-xs text-slate-400 block mb-2 font-medium">Foto del Conductor</span>
-                  <div className="aspect-video bg-slate-800 rounded-xl overflow-hidden border border-slate-700/50 hover:border-slate-600 transition-colors">
+                  <span className="text-xs text-muted-foreground block mb-2 font-medium">Foto del Conductor</span>
+                  <div className={`aspect-video ${theme === 'dark' ? 'bg-slate-800' : 'bg-slate-100'} rounded-xl overflow-hidden border border-border hover:border-border transition-colors`}>
                     <img src={entry.driverPhoto} alt="Conductor Ingreso" className="w-full h-full object-cover hover:scale-105 transition-transform duration-350" />
                   </div>
                 </div>
@@ -142,16 +144,16 @@ export function RecordDetailModal({ isOpen, onClose, entry }: RecordDetailModalP
 
               {/* Entry metadata */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                <div className="bg-slate-800/35 rounded-xl p-3 border border-slate-800">
-                  <span className="text-[10px] text-slate-500 uppercase font-bold tracking-wider block mb-1">Fecha y Hora</span>
-                  <p className="text-sm text-slate-200 font-semibold flex items-center gap-1.5 font-mono">
+                <div className={`${theme === 'dark' ? 'bg-slate-800/35' : 'bg-slate-50'} rounded-xl p-3 border border-border`}>
+                  <span className="text-[10px] text-muted-foreground/70 uppercase font-bold tracking-wider block mb-1">Fecha y Hora</span>
+                  <p className="text-sm text-foreground font-semibold flex items-center gap-1.5 font-mono">
                     <Clock className="w-4 h-4 text-blue-400" />
                     {new Date(entry.entryTimestamp).toLocaleString('es-ES')}
                   </p>
                 </div>
-                <div className="bg-slate-800/35 rounded-xl p-3 border border-slate-800">
-                  <span className="text-[10px] text-slate-500 uppercase font-bold tracking-wider block mb-1">Vigilante Responsable</span>
-                  <p className="text-sm text-slate-200 font-semibold flex items-center gap-1.5">
+                <div className={`${theme === 'dark' ? 'bg-slate-800/35' : 'bg-slate-50'} rounded-xl p-3 border border-border`}>
+                  <span className="text-[10px] text-muted-foreground/70 uppercase font-bold tracking-wider block mb-1">Vigilante Responsable</span>
+                  <p className="text-sm text-foreground font-semibold flex items-center gap-1.5">
                     <User className="w-4 h-4 text-blue-400" />
                     {entry.guard?.fullName || 'No especificado'}
                   </p>
@@ -162,15 +164,15 @@ export function RecordDetailModal({ isOpen, onClose, entry }: RecordDetailModalP
               {(entry.latitude || entry.notes) && (
                 <div className="space-y-3 pt-2">
                   {entry.latitude && (
-                    <p className="text-xs text-slate-400 flex items-center gap-1">
-                      <MapPin className="w-3.5 h-3.5 text-slate-500" />
+                    <p className="text-xs text-muted-foreground flex items-center gap-1">
+                      <MapPin className="w-3.5 h-3.5 text-muted-foreground/70" />
                       Coordenadas: {entry.latitude}, {entry.longitude}
                     </p>
                   )}
                   {entry.notes && (
-                    <div className="bg-slate-800/30 rounded-xl p-4 border border-slate-800">
-                      <span className="text-xs text-slate-400 block mb-1 font-medium">Observaciones de Ingreso</span>
-                      <p className="text-sm text-slate-300 italic">"{entry.notes}"</p>
+                    <div className={`${theme === 'dark' ? 'bg-slate-800/30' : 'bg-slate-50'} rounded-xl p-4 border border-border`}>
+                      <span className="text-xs text-muted-foreground block mb-1 font-medium">Observaciones de Ingreso</span>
+                      <p className="text-sm text-muted-foreground italic">"{entry.notes}"</p>
                     </div>
                   )}
                 </div>
@@ -178,11 +180,11 @@ export function RecordDetailModal({ isOpen, onClose, entry }: RecordDetailModalP
             </div>
 
             {/* Exit Column */}
-            <div className="bg-slate-850 border border-slate-800/80 rounded-2xl p-6 space-y-6">
-              <div className="border-b border-slate-800 pb-3 flex items-center justify-between">
+            <div className={`${theme === 'dark' ? 'bg-slate-850' : 'bg-slate-50'} border border-border rounded-2xl p-6 space-y-6`}>
+              <div className="border-b border-border pb-3 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="w-2.5 h-2.5 rounded-full bg-green-500"></div>
-                  <h3 className="font-bold text-white text-lg">Detalles de Salida</h3>
+                  <h3 className="font-bold text-foreground text-lg">Detalles de Salida</h3>
                 </div>
                 {exit && exit.isDriverMatch !== undefined && (
                   <span className={`text-xs px-2.5 py-0.5 rounded-full font-semibold flex items-center gap-1 ${
@@ -210,18 +212,18 @@ export function RecordDetailModal({ isOpen, onClose, entry }: RecordDetailModalP
                   {/* Exit photos and comparison */}
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <span className="text-xs text-slate-400 block mb-2 font-medium">Foto de Ingreso (Ref)</span>
-                      <div className="aspect-video bg-slate-800 rounded-xl overflow-hidden border border-slate-700/50">
+                      <span className="text-xs text-muted-foreground block mb-2 font-medium">Foto de Ingreso (Ref)</span>
+                      <div className={`aspect-video ${theme === 'dark' ? 'bg-slate-800' : 'bg-slate-100'} rounded-xl overflow-hidden border border-border`}>
                         <img src={entry.driverPhoto} alt="Conductor Ingreso (Ref)" className="w-full h-full object-cover" />
                       </div>
                     </div>
                     <div>
-                      <span className="text-xs text-slate-400 block mb-2 font-medium">Foto de Salida</span>
-                      <div className="aspect-video bg-slate-800 rounded-xl overflow-hidden border border-slate-700/50 hover:border-slate-600 transition-colors">
+                      <span className="text-xs text-muted-foreground block mb-2 font-medium">Foto de Salida</span>
+                      <div className={`aspect-video ${theme === 'dark' ? 'bg-slate-800' : 'bg-slate-100'} rounded-xl overflow-hidden border border-border hover:border-border transition-colors`}>
                         {exit.driverPhotoExit ? (
                           <img src={exit.driverPhotoExit} alt="Conductor Salida" className="w-full h-full object-cover hover:scale-105 transition-transform duration-350" />
                         ) : (
-                          <div className="w-full h-full flex flex-col items-center justify-center text-slate-500 text-xs">
+                          <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground/70 text-xs">
                             <User className="w-8 h-8 opacity-30 mb-1" />
                             Sin captura de salida
                           </div>
@@ -232,16 +234,16 @@ export function RecordDetailModal({ isOpen, onClose, entry }: RecordDetailModalP
 
                   {/* Exit metadata */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                    <div className="bg-slate-800/35 rounded-xl p-3 border border-slate-800">
-                      <span className="text-[10px] text-slate-500 uppercase font-bold tracking-wider block mb-1">Fecha y Hora Salida</span>
-                      <p className="text-sm text-slate-200 font-semibold flex items-center gap-1.5 font-mono">
+                    <div className={`${theme === 'dark' ? 'bg-slate-800/35' : 'bg-slate-50'} rounded-xl p-3 border border-border`}>
+                      <span className="text-[10px] text-muted-foreground/70 uppercase font-bold tracking-wider block mb-1">Fecha y Hora Salida</span>
+                      <p className="text-sm text-foreground font-semibold flex items-center gap-1.5 font-mono">
                         <Clock className="w-4 h-4 text-green-400" />
                         {new Date(exit.exitTimestamp).toLocaleString('es-ES')}
                       </p>
                     </div>
-                    <div className="bg-slate-800/35 rounded-xl p-3 border border-slate-800">
-                      <span className="text-[10px] text-slate-500 uppercase font-bold tracking-wider block mb-1">Vigilante Salida</span>
-                      <p className="text-sm text-slate-200 font-semibold flex items-center gap-1.5">
+                    <div className={`${theme === 'dark' ? 'bg-slate-800/35' : 'bg-slate-50'} rounded-xl p-3 border border-border`}>
+                      <span className="text-[10px] text-muted-foreground/70 uppercase font-bold tracking-wider block mb-1">Vigilante Salida</span>
+                      <p className="text-sm text-foreground font-semibold flex items-center gap-1.5">
                         <User className="w-4 h-4 text-green-400" />
                         {exit.guard?.fullName || 'No especificado'}
                       </p>
@@ -250,17 +252,17 @@ export function RecordDetailModal({ isOpen, onClose, entry }: RecordDetailModalP
 
                   {/* Exit notes */}
                   {exit.notes && (
-                    <div className="bg-slate-800/30 rounded-xl p-4 border border-slate-800 mt-2">
-                      <span className="text-xs text-slate-400 block mb-1 font-medium">Observaciones de Salida</span>
-                      <p className="text-sm text-slate-300 italic">"{exit.notes}"</p>
+                    <div className={`${theme === 'dark' ? 'bg-slate-800/30' : 'bg-slate-50'} rounded-xl p-4 border border-border mt-2`}>
+                      <span className="text-xs text-muted-foreground block mb-1 font-medium">Observaciones de Salida</span>
+                      <p className="text-sm text-muted-foreground italic">"{exit.notes}"</p>
                     </div>
                   )}
                 </>
               ) : (
-                <div className="flex flex-col items-center justify-center py-16 text-slate-500 bg-slate-800/10 rounded-2xl border border-dashed border-slate-850">
+                <div className={`flex flex-col items-center justify-center py-16 text-muted-foreground/70 ${theme === 'dark' ? 'bg-slate-800/10' : 'bg-slate-50'} rounded-2xl border border-dashed border-border`}>
                   <HardDrive className="w-12 h-12 opacity-25 mb-3" />
                   <p className="text-sm font-semibold">Vehículo actualmente en planta</p>
-                  <p className="text-xs text-slate-600 mt-1">La salida aún no ha sido registrada.</p>
+                  <p className="text-xs text-muted-foreground/70 mt-1">La salida aún no ha sido registrada.</p>
                 </div>
               )}
             </div>
@@ -271,17 +273,17 @@ export function RecordDetailModal({ isOpen, onClose, entry }: RecordDetailModalP
             <div className="bg-red-500/5 border border-red-500/15 rounded-2xl p-6">
               <div className="border-b border-red-500/20 pb-3 flex items-center gap-2 mb-4">
                 <AlertTriangle className="w-5 h-5 text-red-400" />
-                <h3 className="font-bold text-white text-lg">Alertas e Incidentes Reportados ({incidents.length})</h3>
+                <h3 className="font-bold text-foreground text-lg">Alertas e Incidentes Reportados ({incidents.length})</h3>
               </div>
               <div className="space-y-4">
                 {incidents.map((incident) => (
-                  <div key={incident.id} className="bg-slate-850 border border-red-500/20 rounded-xl p-4 flex flex-col md:flex-row md:items-start justify-between gap-4">
+                  <div key={incident.id} className={`${theme === 'dark' ? 'bg-slate-850' : 'bg-slate-50'} border border-red-500/20 rounded-xl p-4 flex flex-col md:flex-row md:items-start justify-between gap-4`}>
                     <div className="space-y-1">
                       <span className="text-xs bg-red-500/20 text-red-400 border border-red-500/30 px-2 py-0.5 rounded-md font-bold uppercase tracking-wider">
                         {formatIncidentType(incident.incidentType)}
                       </span>
-                      <p className="text-sm text-slate-200 mt-2">{incident.description || 'Sin descripción detallada.'}</p>
-                      <p className="text-[10px] text-slate-500 font-mono mt-1">Reportado el: {new Date(incident.createdAt).toLocaleString('es-ES')}</p>
+                      <p className="text-sm text-foreground mt-2">{incident.description || 'Sin descripción detallada.'}</p>
+                      <p className="text-[10px] text-muted-foreground/70 font-mono mt-1">Reportado el: {new Date(incident.createdAt).toLocaleString('es-ES')}</p>
                     </div>
                     <div className="flex flex-col items-start md:items-end justify-between h-full gap-2">
                       <span className={`text-xs px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider ${
@@ -292,7 +294,7 @@ export function RecordDetailModal({ isOpen, onClose, entry }: RecordDetailModalP
                         {incident.status === 'resolved' ? 'Resuelto' : 'Abierto'}
                       </span>
                       {incident.resolutionNotes && (
-                        <p className="text-xs text-slate-400 mt-1 max-w-xs text-left md:text-right italic">
+                        <p className="text-xs text-muted-foreground mt-1 max-w-xs text-left md:text-right italic">
                           <strong>Resolución:</strong> "{incident.resolutionNotes}"
                         </p>
                       )}
@@ -305,10 +307,10 @@ export function RecordDetailModal({ isOpen, onClose, entry }: RecordDetailModalP
         </div>
 
         {/* Modal Footer */}
-        <div className="p-6 border-t border-slate-800 bg-slate-900/30 flex items-center justify-end">
+        <div className="p-6 border-t border-border bg-card/30 flex items-center justify-end">
           <button
             onClick={onClose}
-            className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-semibold transition-all border border-slate-700"
+            className={`px-6 py-2.5 ${theme === 'dark' ? 'bg-slate-800 hover:bg-slate-700 border-slate-700' : 'bg-slate-100 hover:bg-slate-200 border-slate-200'} text-foreground rounded-xl text-sm font-semibold transition-all border`}
           >
             Cerrar Reporte
           </button>

@@ -1,6 +1,7 @@
 // Componente ConfirmationCard - Tarjeta de Confirmación de Registro
 
 import { Check, X, AlertTriangle, Loader2 } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface ConfirmationCardProps {
   vehiclePhoto: string | null;
@@ -21,14 +22,16 @@ export function ConfirmationCard({
   isLoading = false,
   error = null,
 }: ConfirmationCardProps) {
+  const { theme } = useTheme();
+
   return (
     <div className="w-full">
       {/* Título */}
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-white mb-2">
+        <h2 className="text-2xl font-bold text-foreground mb-2">
           Confirmar Registro de Ingreso
         </h2>
-        <p className="text-slate-400">
+        <p className="text-muted-foreground">
           Revise los datos antes de confirmar
         </p>
       </div>
@@ -37,7 +40,7 @@ export function ConfirmationCard({
       <div className="grid grid-cols-3 gap-4 mb-6">
         {/* Foto Vehículo */}
         <div className="text-center">
-          <div className="relative aspect-square rounded-xl overflow-hidden bg-slate-800 mb-2">
+          <div className={`relative aspect-square rounded-xl overflow-hidden mb-2 ${theme === 'dark' ? 'bg-slate-800' : 'bg-slate-100'}`}>
             {vehiclePhoto ? (
               <img
                 src={vehiclePhoto}
@@ -45,12 +48,12 @@ export function ConfirmationCard({
                 className="w-full h-full object-cover"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-slate-500">
+              <div className="w-full h-full flex items-center justify-center text-muted-foreground">
                 <span className="text-4xl">🚗</span>
               </div>
             )}
           </div>
-          <span className="text-sm text-slate-400">Vehículo</span>
+          <span className="text-sm text-muted-foreground">Vehículo</span>
           {vehiclePhoto && (
             <div className="absolute top-2 right-2 bg-green-500 rounded-full p-1">
               <Check className="w-3 h-3 text-white" />
@@ -60,7 +63,7 @@ export function ConfirmationCard({
 
         {/* Foto Conductor */}
         <div className="text-center">
-          <div className="relative aspect-square rounded-xl overflow-hidden bg-slate-800 mb-2">
+          <div className={`relative aspect-square rounded-xl overflow-hidden mb-2 ${theme === 'dark' ? 'bg-slate-800' : 'bg-slate-100'}`}>
             {driverPhoto ? (
               <img
                 src={driverPhoto}
@@ -68,12 +71,12 @@ export function ConfirmationCard({
                 className="w-full h-full object-cover"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-slate-500">
+              <div className="w-full h-full flex items-center justify-center text-muted-foreground">
                 <span className="text-4xl">👤</span>
               </div>
             )}
           </div>
-          <span className="text-sm text-slate-400">Conductor</span>
+          <span className="text-sm text-muted-foreground">Conductor</span>
           {driverPhoto && (
             <div className="absolute top-2 right-2 bg-green-500 rounded-full p-1">
               <Check className="w-3 h-3 text-white" />
@@ -88,12 +91,12 @@ export function ConfirmationCard({
               {licensePlate || '---'}
             </span>
           </div>
-          <span className="text-sm text-slate-400">Placa</span>
+          <span className="text-sm text-muted-foreground">Placa</span>
         </div>
       </div>
 
       {/* Estado de validación */}
-      <div className="mb-6 p-4 bg-slate-800/50 rounded-xl">
+      <div className={`mb-6 p-4 rounded-xl ${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'}`}>
         <div className="flex items-center gap-3">
           {vehiclePhoto && driverPhoto && licensePlate ? (
             <>
@@ -102,7 +105,7 @@ export function ConfirmationCard({
               </div>
               <div>
                 <p className="text-green-400 font-medium">Todos los datos están completos</p>
-                <p className="text-sm text-slate-400">El registro está listo para confirmarse</p>
+                <p className="text-sm text-muted-foreground">El registro está listo para confirmarse</p>
               </div>
             </>
           ) : (
@@ -112,7 +115,7 @@ export function ConfirmationCard({
               </div>
               <div>
                 <p className="text-amber-400 font-medium">Datos incompletos</p>
-                <p className="text-sm text-slate-400">Complete todos los pasos antes de confirmar</p>
+                <p className="text-sm text-muted-foreground">Complete todos los pasos antes de confirmar</p>
               </div>
             </>
           )}
@@ -134,7 +137,7 @@ export function ConfirmationCard({
         <button
           onClick={onCancel}
           disabled={isLoading}
-          className="flex-1 py-4 px-6 rounded-xl border-2 border-slate-600 text-slate-300 font-semibold hover:bg-slate-700 transition-all disabled:opacity-50"
+          className={`flex-1 py-4 px-6 rounded-xl border-2 border-border text-foreground font-semibold transition-all disabled:opacity-50 ${theme === 'dark' ? 'hover:bg-slate-700' : 'hover:bg-slate-200'}`}
         >
           Cancelar
         </button>
