@@ -1,7 +1,7 @@
 // Página de Registro de Ingreso - Sistema de Control de Vehículos
 
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { ArrowRight, CheckCircle, Camera, User, Car, Scan, AlertTriangle, UserPlus } from 'lucide-react';
+import { ArrowRight, CheckCircle, Camera, User, Car, Scan, AlertTriangle, UserPlus, SkipForward } from 'lucide-react';
 import { useVehicleStore } from '../store';
 import { CameraCapture } from '../components/CameraCapture';
 import { ProgressStepper } from '../components/ProgressStepper';
@@ -9,6 +9,7 @@ import { PlateInput } from '../components/PlateInput';
 import { ConfirmationCard } from '../components/ConfirmationCard';
 import { entryApi } from '../services/entryApi';
 import { facialApi } from '../services/facialApi';
+import { useTheme } from '../contexts/ThemeContext';
 import type { RegistrationStep, CameraState } from '../types';
 
 interface EntryPageProps {
@@ -18,6 +19,7 @@ interface EntryPageProps {
 type RecognitionState = 'idle' | 'recognizing' | 'recognized' | 'not_found' | 'error';
 
 export function EntryPage({ onComplete }: EntryPageProps) {
+  const { theme } = useTheme();
   const {
     currentStep,
     vehiclePhoto,
@@ -140,7 +142,7 @@ export function EntryPage({ onComplete }: EntryPageProps) {
       case 'driver':
         return stepStatus.driver === 'captured';
       case 'plate':
-        return stepStatus.plate === 'captured' && licensePlate.length >= 4;
+        return stepStatus.plate === 'captured' && licensePlate.length >= 2;
       case 'confirm':
         return vehiclePhoto && driverPhoto && licensePlate;
       default:
@@ -155,11 +157,11 @@ export function EntryPage({ onComplete }: EntryPageProps) {
         <div className="w-24 h-24 rounded-full bg-green-500/20 flex items-center justify-center mb-6 animate-bounce">
           <CheckCircle className="w-16 h-16 text-green-400" />
         </div>
-        <h2 className="text-3xl font-bold text-white mb-2">¡Ingreso Registrado!</h2>
-        <p className="text-slate-400 mb-6">El vehículo ha sido registrado exitosamente</p>
-        <div className="bg-slate-800 rounded-xl p-6 text-center">
+        <h2 className="text-3xl font-bold text-foreground mb-2">¡Ingreso Registrado!</h2>
+        <p className="text-muted-foreground mb-6">El vehículo ha sido registrado exitosamente</p>
+        <div className={`${theme === 'dark' ? 'bg-slate-800' : 'bg-white'} rounded-xl p-6 text-center`}>
           <p className="text-4xl font-mono font-bold text-blue-400">{licensePlate}</p>
-          <p className="text-slate-400 mt-2">
+          <p className="text-muted-foreground mt-2">
             {new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}
           </p>
         </div>
@@ -171,11 +173,11 @@ export function EntryPage({ onComplete }: EntryPageProps) {
     <div className="max-w-6xl mx-auto px-4 py-6">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white flex items-center gap-3">
+        <h1 className="text-2xl font-bold text-foreground flex items-center gap-3">
           <Scan className="w-8 h-8 text-blue-400" />
           Registro de Ingreso
         </h1>
-        <p className="text-slate-400 mt-1">
+        <p className="text-muted-foreground mt-1">
           Reconocimiento facial automático del conductor
         </p>
       </div>
@@ -186,11 +188,11 @@ export function EntryPage({ onComplete }: EntryPageProps) {
         {/* Columna Izquierda: Formulario y Captura (Cámara) */}
         <div className="lg:col-span-8 space-y-6">
           {/* Stepper horizontal para pantallas móviles/tabletas */}
-          <div className="lg:hidden bg-slate-800/40 border border-slate-700/50 rounded-2xl p-4">
+          <div className={`lg:hidden ${theme === 'dark' ? 'bg-slate-800/40' : 'bg-white/80'} border border-border rounded-2xl p-4`}>
             <ProgressStepper currentStep={currentStep} stepStatus={stepStatus} orientation="horizontal" />
           </div>
 
-          <div className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-6 md:p-8">
+          <div className={`${theme === 'dark' ? 'bg-slate-800/40' : 'bg-white/80'} border border-border rounded-2xl p-6 md:p-8`}>
             {currentStep === 'driver' && (
               <div className="space-y-6 animate-fade-in">
                 <div className="text-center">
@@ -198,7 +200,7 @@ export function EntryPage({ onComplete }: EntryPageProps) {
                     <User className="w-5 h-5" />
                     <span className="font-medium">Paso 1: Reconocimiento Facial</span>
                   </div>
-                  <p className="text-slate-300 text-sm">
+                  <p className="text-muted-foreground text-sm">
                     La cámara capturará el rostro automáticamente. El conductor debe mirar directamente.
                   </p>
                 </div>
@@ -218,7 +220,7 @@ export function EntryPage({ onComplete }: EntryPageProps) {
                     <div className="w-20 h-20 rounded-full bg-blue-500/20 flex items-center justify-center mx-auto mb-4">
                       <Scan className="w-10 h-10 text-blue-400 animate-pulse" />
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-2">Reconociendo Rostro...</h3>
+                    <h3 className="text-xl font-bold text-foreground mb-2">Reconociendo Rostro...</h3>
                     <div className="flex items-center justify-center gap-2 text-blue-400">
                       <div className="animate-spin w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full" />
                       <span>Buscando en base de datos facial</span>
@@ -243,22 +245,22 @@ export function EntryPage({ onComplete }: EntryPageProps) {
                         <div className="w-24 h-24 rounded-xl overflow-hidden bg-slate-700 mx-auto mb-2">
                           <img src={recognizedProfile.driverPhoto} className="w-full h-full object-cover" />
                         </div>
-                        <p className="text-xs text-slate-400">Registrado</p>
+                        <p className="text-xs text-muted-foreground">Registrado</p>
                       </div>
                       <div className="text-center">
                         <div className="w-24 h-24 rounded-xl overflow-hidden bg-slate-700 mx-auto mb-2 ring-2 ring-green-500/50">
                           <img src={driverPhoto || ''} className="w-full h-full object-cover" />
                         </div>
-                        <p className="text-xs text-slate-400">Actual</p>
+                        <p className="text-xs text-muted-foreground">Actual</p>
                       </div>
                     </div>
 
-                    <div className="p-4 bg-slate-800/60 rounded-xl">
-                      <p className="text-sm text-slate-400 mb-1">Placa asociada</p>
+                    <div className={`p-4 ${theme === 'dark' ? 'bg-slate-800/60' : 'bg-white/80'} rounded-xl`}>
+                      <p className="text-sm text-muted-foreground mb-1">Placa asociada</p>
                       <p className="text-2xl font-mono font-bold text-blue-400">{recognizedProfile.licensePlate}</p>
                     </div>
 
-                    <p className="text-xs text-slate-500 text-center">
+                    <p className="text-xs text-muted-foreground/70 text-center">
                       Los datos del vehículo se han precargado. Puede editarlos en los siguientes pasos si es necesario.
                     </p>
 
@@ -267,7 +269,7 @@ export function EntryPage({ onComplete }: EntryPageProps) {
                     </button>
 
                     <button onClick={() => { setRecognitionState('idle'); setRecognizedProfile(null); setRecognitionConfidence(0); setCameraState({ status: 'idle' }); }}
-                      className="w-full py-3 rounded-xl border-2 border-slate-600 text-slate-300 font-medium hover:bg-slate-700 transition-colors text-sm">
+                      className="w-full py-3 rounded-xl border-2 border-border text-muted-foreground font-medium hover:bg-slate-700 transition-colors text-sm">
                       Tomar otra foto
                     </button>
                   </div>
@@ -287,8 +289,8 @@ export function EntryPage({ onComplete }: EntryPageProps) {
                       </p>
                     </div>
 
-                    <div className="p-4 bg-slate-800/60 rounded-xl">
-                      <div className="flex items-center gap-2 text-slate-300">
+                    <div className={`p-4 ${theme === 'dark' ? 'bg-slate-800/60' : 'bg-white/80'} rounded-xl`}>
+                      <div className="flex items-center gap-2 text-muted-foreground">
                         <AlertTriangle className="w-5 h-5 text-amber-400" />
                         <span>Complete los datos del vehículo y conductor manualmente</span>
                       </div>
@@ -299,7 +301,7 @@ export function EntryPage({ onComplete }: EntryPageProps) {
                     </button>
 
                     <button onClick={() => { setRecognitionState('idle'); setRecognizedProfile(null); setCameraState({ status: 'idle' }); }}
-                      className="w-full py-3 rounded-xl border-2 border-slate-600 text-slate-300 font-medium hover:bg-slate-700 transition-colors text-sm">
+                      className="w-full py-3 rounded-xl border-2 border-border text-muted-foreground font-medium hover:bg-slate-700 transition-colors text-sm">
                       Reintentar captura
                     </button>
                   </div>
@@ -320,7 +322,7 @@ export function EntryPage({ onComplete }: EntryPageProps) {
                     <Camera className="w-5 h-5" />
                     <span className="font-medium">Paso 2: Foto Panorámica del Vehículo</span>
                   </div>
-                  <p className="text-slate-300 text-sm">
+                  <p className="text-muted-foreground text-sm">
                     {vehiclePhoto
                       ? 'Confirme o tome una nueva fotografía del vehículo'
                       : 'Capture una fotografía panorámica del vehículo con el conductor'
@@ -336,12 +338,12 @@ export function EntryPage({ onComplete }: EntryPageProps) {
                 />
 
                 {vehiclePhoto && (
-                  <div className="mt-6 p-4 bg-slate-800 rounded-xl">
-                    <p className="text-sm text-slate-400 mb-2 font-medium">Vista previa vehículo:</p>
+                  <div className={`mt-6 p-4 ${theme === 'dark' ? 'bg-slate-800' : 'bg-white'} rounded-xl`}>
+                    <p className="text-sm text-muted-foreground mb-2 font-medium">Vista previa vehículo:</p>
                     <img
                       src={vehiclePhoto}
                       alt="Vehículo capturado"
-                      className="w-full max-h-48 object-contain rounded-lg border border-slate-700"
+                      className="w-full max-h-48 object-contain rounded-lg border border-border"
                     />
                   </div>
                 )}
@@ -361,7 +363,7 @@ export function EntryPage({ onComplete }: EntryPageProps) {
                     <Car className="w-5 h-5" />
                     <span className="font-medium">Paso 3: Registro de Placa</span>
                   </div>
-                  <p className="text-slate-300 text-sm">
+                  <p className="text-muted-foreground text-sm">
                     {recognizedProfile
                       ? 'Verifique y confirme la placa vehicular'
                       : 'Ingrese la placa vehicular manualmente'
@@ -375,6 +377,25 @@ export function EntryPage({ onComplete }: EntryPageProps) {
                     onChange={setLicensePlate}
                     recentPlates={[]}
                   />
+
+                  <button
+                    onClick={() => {
+                      setLicensePlate('S/N');
+                    }}
+                    type="button"
+                    className={`
+                      mt-4 w-full flex items-center justify-center gap-2 py-3 px-4
+                      rounded-xl border-2 border-dashed font-semibold text-sm
+                      transition-all duration-200 cursor-pointer
+                      ${licensePlate === 'S/N'
+                        ? 'border-blue-500 bg-blue-500/10 text-blue-500 dark:text-blue-400'
+                        : 'border-border text-muted-foreground hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-blue-500/5'
+                      }
+                    `}
+                  >
+                    <SkipForward className="w-4 h-4" />
+                    {licensePlate === 'S/N' ? 'Registrado sin placa' : 'Sin placa — Registrar sin número'}
+                  </button>
                 </div>
               </div>
             )}
@@ -403,8 +424,8 @@ export function EntryPage({ onComplete }: EntryPageProps) {
                 className={`
                   px-4 py-2.5 sm:px-6 sm:py-3 rounded-xl font-semibold transition-all text-sm sm:text-base
                   ${currentStep === 'driver'
-                    ? 'text-slate-600 cursor-not-allowed'
-                    : 'text-slate-300 hover:bg-slate-850 hover:text-white border border-slate-700/50'
+                    ? 'text-muted-foreground/50 cursor-not-allowed'
+                    : 'text-muted-foreground hover:text-foreground border border-border'
                   }
                 `}
               >
@@ -419,7 +440,7 @@ export function EntryPage({ onComplete }: EntryPageProps) {
                   transition-all disabled:opacity-50 disabled:cursor-not-allowed
                   ${canProceed()
                     ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/15'
-                    : 'bg-slate-800 text-slate-500 border border-slate-700/50'
+                    : `${theme === 'dark' ? 'bg-slate-800' : 'bg-white'} text-muted-foreground/50 border border-border`
                   }
                 `}
               >
@@ -431,8 +452,8 @@ export function EntryPage({ onComplete }: EntryPageProps) {
         </div>
 
         {/* Columna Derecha: Stepper Vertical Fijo en Escritorio (oculto en móviles/tabletas) */}
-        <div className="hidden lg:block lg:col-span-4 bg-slate-800/30 border border-slate-700/50 rounded-2xl p-6 lg:sticky lg:top-6">
-          <h3 className="font-bold text-white text-base mb-5 border-b border-slate-700/50 pb-2">
+        <div className={`hidden lg:block lg:col-span-4 ${theme === 'dark' ? 'bg-slate-800/30' : 'bg-white/80'} border border-border rounded-2xl p-6 lg:sticky lg:top-6`}>
+          <h3 className="font-bold text-foreground text-base mb-5 border-b border-border pb-2">
             Pasos de Registro
           </h3>
           <ProgressStepper currentStep={currentStep} stepStatus={stepStatus} orientation="vertical" />

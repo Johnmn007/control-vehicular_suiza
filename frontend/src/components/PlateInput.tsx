@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { Car, Check, AlertCircle, Search, Camera, X, RefreshCw } from 'lucide-react';
 import { entryApi } from '../services/entryApi';
 import { compressImage } from '../utils/imageCompressor';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface PlateInputProps {
   value: string;
@@ -23,6 +24,7 @@ export function PlateInput({
   showSuggestions = true,
   recentPlates = [],
 }: PlateInputProps) {
+  const { theme } = useTheme();
   const [isValid, setIsValid] = useState<boolean | null>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [showRecent, setShowRecent] = useState(false);
@@ -39,10 +41,13 @@ export function PlateInput({
   const streamRef = useRef<MediaStream | null>(null);
 
   // Validar formato de placa venezolana
-  // Formatos soportados: ABC-1234, 1U-3425, U2-5674, 5463-2U, U1-89675, AFB-546, O0-34256, ABC1234, etc.
+  // Formatos soportados: ABC-1234, 1U-3425, U2-5674, 5463-2U, U1-89675, AFB-546, O0-34256, ABC1234, S/N, etc.
   const validatePlate = useCallback((plate: string): boolean => {
     if (!plate) return false;
     const p = plate.toUpperCase().trim();
+
+    // Caso especial: sin placa
+    if (p === 'S/N') return true;
 
     // Solo permitir letras, números y guiones
     if (!/^[A-Z0-9\-]+$/.test(p)) return false;
@@ -72,7 +77,9 @@ export function PlateInput({
   }, []);
 
   useEffect(() => {
-    if (value.length >= 4) {
+    if (value.toUpperCase().trim() === 'S/N') {
+      setIsValid(true);
+    } else if (value.length >= 4) {
       const valid = validatePlate(value);
       setIsValid(valid);
     } else if (value.length === 0) {
@@ -256,7 +263,7 @@ export function PlateInput({
       `}</style>
 
       {/* Label */}
-      <label className="block text-sm font-semibold text-slate-350 mb-2">
+      <label className="block text-sm font-semibold text-foreground mb-2">
         Número de Placa Vehicular
       </label>
 
@@ -266,7 +273,7 @@ export function PlateInput({
         {/* Input Principal */}
         <div className="relative flex-1">
           {/* Icono */}
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
             <Car className="w-6 h-6" />
           </div>
 
@@ -289,11 +296,11 @@ export function PlateInput({
             className={`
               w-full pl-14 pr-12 py-4 text-2xl font-mono font-bold
               rounded-xl border-2 transition-all duration-200
-              placeholder:text-slate-600 placeholder:font-normal
+              placeholder:text-muted-foreground/50 placeholder:font-normal
               focus:outline-none
               ${isValid === true ? 'border-green-500 bg-green-500/10' : ''}
               ${isValid === false ? 'border-red-500 bg-red-500/10' : ''}
-              ${isValid === null ? 'border-slate-655 bg-slate-800' : ''}
+              ${isValid === null ? (theme === 'dark' ? 'border-slate-655 bg-slate-800' : 'border-slate-300 bg-white') : ''}
               ${isFocused && isValid === null ? 'border-blue-500 ring-4 ring-blue-500/15' : ''}
               ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
             `}
@@ -323,8 +330,8 @@ export function PlateInput({
             hidden /* TODO: Habilitar cuando se implemente OCR real */
             px-5 py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 border shadow-lg cursor-pointer
             ${disabled
-              ? 'bg-slate-800 text-slate-500 border-slate-700 cursor-not-allowed opacity-50'
-              : 'bg-slate-800 hover:bg-slate-750 text-blue-400 hover:text-blue-300 border-slate-700 hover:border-slate-600 active:scale-95'
+              ? (theme === 'dark' ? 'bg-slate-800 text-slate-500 border-slate-700 cursor-not-allowed opacity-50' : 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed opacity-50')
+              : (theme === 'dark' ? 'bg-slate-800 hover:bg-slate-750 text-blue-400 hover:text-blue-300 border-slate-700 hover:border-slate-600 active:scale-95' : 'bg-white hover:bg-slate-50 text-blue-600 hover:text-blue-500 border-slate-200 hover:border-slate-300 active:scale-95')
             }
           `}
           title="Escanear placa vehicular con cámara"
@@ -337,17 +344,17 @@ export function PlateInput({
 
       {/* Sugerencias recientes */}
       {showRecent && showSuggestions && recentPlates.length > 0 && (
-        <div className="absolute z-15 mt-2 w-full max-w-md bg-slate-850 border border-slate-700 rounded-xl overflow-hidden shadow-2xl">
-          <div className="px-3 py-2 text-xs text-slate-500 border-b border-slate-700/60 font-semibold uppercase tracking-wider">
+        <div className={`absolute z-15 mt-2 w-full max-w-md rounded-xl overflow-hidden shadow-2xl border ${theme === 'dark' ? 'bg-slate-850 border-slate-700' : 'bg-white border-slate-200'}`}>
+          <div className={`px-3 py-2 text-xs font-semibold uppercase tracking-wider border-b ${theme === 'dark' ? 'text-slate-500 border-slate-700/60' : 'text-slate-400 border-slate-200/60'}`}>
             Placas recientes
           </div>
           {recentPlates.slice(0, 5).map((plate, index) => (
             <button
               key={index}
               onClick={() => selectRecentPlate(plate)}
-              className="w-full px-4 py-3 text-left font-mono hover:bg-slate-750 transition-colors flex items-center gap-2 text-slate-200 border-b border-slate-800 last:border-0"
+              className={`w-full px-4 py-3 text-left font-mono transition-colors flex items-center gap-2 border-b last:border-0 ${theme === 'dark' ? 'hover:bg-slate-750 text-slate-200 border-slate-800' : 'hover:bg-slate-50 text-foreground border-slate-100'}`}
             >
-              <Search className="w-4 h-4 text-slate-500" />
+              <Search className={`w-4 h-4 ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`} />
               <span>{plate}</span>
             </button>
           ))}
@@ -371,7 +378,7 @@ export function PlateInput({
       </div>
 
       {/* Instrucciones de ayuda */}
-      <p className="mt-2.5 text-xs text-slate-500 leading-normal">
+      <p className="mt-2.5 text-xs text-muted-foreground leading-normal">
         Ingrese los caracteres tal como aparecen en la placa vehicular. Formatos comunes: ABC-1234, 0A-0000, 0000, 0A, etc.
       </p>
 
@@ -379,26 +386,30 @@ export function PlateInput({
       {/* VISOR MODAL DE ESCANEO OCR / ALPR (COMPATIBILIDAD 100%) */}
       {/* ==================================================== */}
       {isScannerOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-sm animate-fade-in">
+        <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm animate-fade-in ${theme === 'dark' ? 'bg-slate-950/85' : 'bg-black/45'}`}>
           
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl flex flex-col">
+          <div className={`border rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl flex flex-col ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-card border-border'}`}>
             
             {/* Header del Modal */}
-            <div className="px-5 py-4 border-b border-slate-850 flex items-center justify-between">
+            <div className={`px-5 py-4 border-b flex items-center justify-between ${theme === 'dark' ? 'border-slate-850' : 'border-border'}`}>
               <div className="flex items-center gap-2.5">
                 <Camera className="w-5 h-5 text-blue-400" />
-                <h3 className="text-white font-bold text-base">Escáner de Placa ALPR</h3>
+                <h3 className="text-foreground font-bold text-base">Escáner de Placa ALPR</h3>
               </div>
               <button 
                 onClick={closeScanner}
-                className="p-1 hover:bg-slate-850 hover:text-white rounded-lg transition-colors border border-transparent"
+                className={`p-1 rounded-lg transition-colors border border-transparent ${theme === 'dark' ? 'hover:bg-slate-850 hover:text-white' : 'hover:bg-slate-100 hover:text-foreground'}`}
               >
-                <X className="w-5 h-5 text-slate-400" />
+                <X className="w-5 h-5 text-muted-foreground" />
               </button>
             </div>
 
             {/* Pantalla del Reproductor / Visor del Escáner */}
+<<<<<<< HEAD
             <div className="relative w-full aspect-[4/3] md:aspect-video bg-slate-950 flex items-center justify-center overflow-hidden border-b border-slate-850">
+=======
+            <div className={`relative w-full aspect-video flex items-center justify-center overflow-hidden border-b ${theme === 'dark' ? 'bg-slate-950 border-slate-850' : 'bg-slate-950 border-border'}`}>
+>>>>>>> master
               
               {/* Stream de Video en vivo */}
               <video 
@@ -433,7 +444,7 @@ export function PlateInput({
 
               {/* Indicador de Análisis OCR en curso */}
               {isScanning && (
-                <div className="absolute inset-0 bg-slate-950/85 flex flex-col items-center justify-center gap-3">
+                <div className={`absolute inset-0 flex flex-col items-center justify-center gap-3 ${theme === 'dark' ? 'bg-slate-950/85' : 'bg-black/70'}`}>
                   <div className="animate-spin w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full" />
                   <p className="text-blue-400 text-sm font-semibold animate-pulse tracking-wide">
                     Extrayendo caracteres alfanuméricos...
@@ -443,11 +454,11 @@ export function PlateInput({
 
               {/* Fallback de Cámara Física por falta de HTTPS (Inseguro) */}
               {hasCameraError && (
-                <div className="absolute inset-0 bg-slate-950 flex flex-col items-center justify-center gap-4 p-5 text-center">
+                <div className={`absolute inset-0 flex flex-col items-center justify-center gap-4 p-5 text-center ${theme === 'dark' ? 'bg-slate-950' : 'bg-background'}`}>
                   <AlertCircle className="w-12 h-12 text-amber-500/80 animate-pulse" />
                   <div>
-                    <h4 className="text-white font-bold text-sm">Escáner no disponible en vivo</h4>
-                    <p className="text-slate-400 text-xs mt-1.5 px-4 leading-relaxed">
+                    <h4 className="text-foreground font-bold text-sm">Escáner no disponible en vivo</h4>
+                    <p className="text-muted-foreground text-xs mt-1.5 px-4 leading-relaxed">
                       El navegador móvil restringe WebRTC en redes HTTP. Utilice su cámara nativa para escanear.
                     </p>
                   </div>
@@ -464,11 +475,11 @@ export function PlateInput({
             </div>
 
             {/* Footer / Controles del Modal */}
-            <div className="px-5 py-4 bg-slate-950/40 flex justify-between gap-3">
+            <div className={`px-5 py-4 flex justify-between gap-3 ${theme === 'dark' ? 'bg-slate-950/40' : 'bg-slate-50'}`}>
               <button
                 type="button"
                 onClick={closeScanner}
-                className="px-5 py-2.5 rounded-xl border border-slate-700 text-slate-300 font-semibold hover:bg-slate-800 transition-colors text-sm"
+                className={`px-5 py-2.5 rounded-xl border font-semibold transition-colors text-sm ${theme === 'dark' ? 'border-slate-700 text-slate-300 hover:bg-slate-800' : 'border-slate-300 text-slate-600 hover:bg-slate-100'}`}
               >
                 Cancelar
               </button>

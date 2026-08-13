@@ -8,6 +8,7 @@ import { entryApi } from '../services/entryApi';
 import { exitApi } from '../services/exitApi';
 import { incidentApi } from '../services/incidentApi';
 import { facialApi, type RecognizedProfile } from '../services/facialApi';
+import { useTheme } from '../contexts/ThemeContext';
 import type { Entry, CameraState } from '../types';
 
 type ExitVerificationState =
@@ -28,6 +29,7 @@ interface ExitPageProps {
 
 export function ExitPage({ onComplete }: ExitPageProps) {
   const { setExitSearchResult } = useVehicleStore();
+  const { theme } = useTheme();
 
   const [verificationState, setVerificationState] = useState<ExitVerificationState>('idle');
   const [foundEntry, setFoundEntry] = useState<Entry | null>(null);
@@ -214,11 +216,11 @@ export function ExitPage({ onComplete }: ExitPageProps) {
   return (
     <div className="max-w-4xl mx-auto px-4 py-6">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-white flex items-center gap-3">
+        <h1 className="text-2xl font-bold text-foreground flex items-center gap-3">
           <Scan className="w-8 h-8 text-cyan-400" />
           Registro de Salida
         </h1>
-        <p className="text-slate-400 mt-1">
+        <p className="text-muted-foreground mt-1">
           Reconocimiento facial automático para verificación de conductor
         </p>
       </div>
@@ -226,19 +228,19 @@ export function ExitPage({ onComplete }: ExitPageProps) {
       {/* ESTADO INICIAL: Cámara de reconocimiento facial */}
       {verificationState === 'idle' && (
         <div className="space-y-6 animate-fade-in">
-          <div className="bg-slate-800 rounded-xl p-6">
+          <div className={`${theme === 'dark' ? 'bg-slate-800' : 'bg-white'} rounded-xl p-6`}>
             <div className="text-center mb-6">
               <div className="w-16 h-16 rounded-full bg-cyan-500/20 flex items-center justify-center mx-auto mb-4">
                 <Camera className="w-8 h-8 text-cyan-400" />
               </div>
-              <h2 className="text-xl font-bold text-white mb-2">Reconocer Conductor</h2>
-              <p className="text-slate-400">
+              <h2 className="text-xl font-bold text-foreground mb-2">Reconocer Conductor</h2>
+              <p className="text-muted-foreground">
                 La cámara se activará automáticamente. El conductor debe mirar directamente a la cámara.
               </p>
             </div>
           </div>
 
-          <div className="bg-slate-800 rounded-xl p-6">
+          <div className={`${theme === 'dark' ? 'bg-slate-800' : 'bg-white'} rounded-xl p-6`}>
             <CameraCapture
               mode="driver"
               onCapture={handleFacialCapture}
@@ -248,16 +250,28 @@ export function ExitPage({ onComplete }: ExitPageProps) {
             />
           </div>
 
+<<<<<<< HEAD
+=======
+          <div className="text-center">
+            <button
+              onClick={goToManualSearch}
+              className="text-muted-foreground hover:text-muted-foreground/80 text-sm flex items-center gap-2 mx-auto transition-colors"
+            >
+              <Search className="w-4 h-4" />
+              Buscar por placa manualmente
+            </button>
+          </div>
+>>>>>>> master
         </div>
       )}
 
       {/* RECONOCIENDO... */}
       {verificationState === 'recognizing' && (
-        <div className="bg-slate-800 rounded-xl p-12 text-center animate-fade-in">
+        <div className={`${theme === 'dark' ? 'bg-slate-800' : 'bg-white'} rounded-xl p-12 text-center animate-fade-in`}>
           <div className="w-20 h-20 rounded-full bg-cyan-500/20 flex items-center justify-center mx-auto mb-6">
             <Scan className="w-10 h-10 text-cyan-400 animate-pulse" />
           </div>
-          <h2 className="text-2xl font-bold text-white mb-3">Reconociendo Conductor...</h2>
+          <h2 className="text-2xl font-bold text-foreground mb-3">Reconociendo Conductor...</h2>
           <div className="flex items-center justify-center gap-3">
             <div className="animate-spin w-6 h-6 border-2 border-cyan-500 border-t-transparent rounded-full" />
             <p className="text-cyan-400">Analizando rostro</p>
@@ -274,15 +288,15 @@ export function ExitPage({ onComplete }: ExitPageProps) {
 
       {/* CONDUCTOR RECONOCIDO - Buscando entrada */}
       {verificationState === 'searching' && (
-        <div className="bg-slate-800 rounded-xl p-12 text-center animate-fade-in">
+        <div className={`${theme === 'dark' ? 'bg-slate-800' : 'bg-white'} rounded-xl p-12 text-center animate-fade-in`}>
           <div className="animate-spin w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full mx-auto mb-4" />
-          <p className="text-slate-400">Conductor reconocido. Buscando entrada pendiente...</p>
+          <p className="text-muted-foreground">Conductor reconocido. Buscando entrada pendiente...</p>
           {recognizedProfile && (
             <div className="mt-4 flex items-center justify-center gap-3">
               <div className="w-10 h-10 rounded-full overflow-hidden bg-slate-700">
                 <img src={recognizedProfile.driverPhoto} alt="Conductor" className="w-full h-full object-cover" />
               </div>
-              <span className="text-white font-medium">{recognizedProfile.fullName || 'Conductor registrado'}</span>
+              <span className="text-foreground font-medium">{recognizedProfile.fullName || 'Conductor registrado'}</span>
             </div>
           )}
         </div>
@@ -302,22 +316,22 @@ export function ExitPage({ onComplete }: ExitPageProps) {
                   <CheckCircle className="w-5 h-5" />
                   Conductor Reconocido
                 </p>
-                <p className="text-white text-lg font-medium">{recognizedProfile.fullName || 'Conductor registrado'}</p>
+                <p className="text-foreground text-lg font-medium">{recognizedProfile.fullName || 'Conductor registrado'}</p>
               </div>
             </div>
           </div>
 
           {/* Datos del vehículo - Visual verification */}
-          <div className="bg-slate-800 rounded-xl p-6">
+          <div className={`${theme === 'dark' ? 'bg-slate-800' : 'bg-white'} rounded-xl p-6`}>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-white">Vehículo a Verificar</h2>
+              <h2 className="text-xl font-bold text-foreground">Vehículo a Verificar</h2>
               <VehicleStatusBadge hasExit={false} />
             </div>
 
             {/* Fotos lado a lado */}
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div className="text-center">
-                <p className="text-sm text-slate-400 mb-2">Foto del Vehículo (Perfil)</p>
+                <p className="text-sm text-muted-foreground mb-2">Foto del Vehículo (Perfil)</p>
                 <div className="aspect-square bg-slate-700 rounded-xl overflow-hidden ring-2 ring-blue-500/50">
                   <img
                     src={recognizedProfile.vehiclePhoto}
@@ -327,7 +341,7 @@ export function ExitPage({ onComplete }: ExitPageProps) {
                 </div>
               </div>
               <div className="text-center">
-                <p className="text-sm text-slate-400 mb-2">Foto del Conductor (Ingreso)</p>
+                <p className="text-sm text-muted-foreground mb-2">Foto del Conductor (Ingreso)</p>
                 <div className="aspect-square bg-slate-700 rounded-xl overflow-hidden ring-2 ring-cyan-500/50">
                   <img
                     src={foundEntry.driverPhoto}
@@ -340,25 +354,25 @@ export function ExitPage({ onComplete }: ExitPageProps) {
 
             {/* Datos del entry */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-slate-700 rounded-lg p-4 text-center">
-                <p className="text-sm text-slate-400">Placa</p>
+              <div className={`${theme === 'dark' ? 'bg-slate-700' : 'bg-slate-100'} rounded-lg p-4 text-center`}>
+                <p className="text-sm text-muted-foreground">Placa</p>
                 <p className="text-2xl font-mono font-bold text-blue-400">{foundEntry.licensePlate}</p>
               </div>
-              <div className="bg-slate-700 rounded-lg p-4 text-center">
-                <p className="text-sm text-slate-400">Hora Ingreso</p>
-                <p className="text-lg font-semibold text-white">
+              <div className={`${theme === 'dark' ? 'bg-slate-700' : 'bg-slate-100'} rounded-lg p-4 text-center`}>
+                <p className="text-sm text-muted-foreground">Hora Ingreso</p>
+                <p className="text-lg font-semibold text-foreground">
                   {new Date(foundEntry.entryTimestamp).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}
                 </p>
               </div>
-              <div className="bg-slate-700 rounded-lg p-4 text-center">
-                <p className="text-sm text-slate-400">Tiempo Est.</p>
-                <p className="text-lg font-semibold text-white">
+              <div className={`${theme === 'dark' ? 'bg-slate-700' : 'bg-slate-100'} rounded-lg p-4 text-center`}>
+                <p className="text-sm text-muted-foreground">Tiempo Est.</p>
+                <p className="text-lg font-semibold text-foreground">
                   {Math.round((Date.now() - new Date(foundEntry.entryTimestamp).getTime()) / 60000)} min
                 </p>
               </div>
-              <div className="bg-slate-700 rounded-lg p-4 text-center">
-                <p className="text-sm text-slate-400">Vigilante</p>
-                <p className="text-lg font-semibold text-white">{foundEntry.guardName || 'N/A'}</p>
+              <div className={`${theme === 'dark' ? 'bg-slate-700' : 'bg-slate-100'} rounded-lg p-4 text-center`}>
+                <p className="text-sm text-muted-foreground">Vigilante</p>
+                <p className="text-lg font-semibold text-foreground">{foundEntry.guardName || 'N/A'}</p>
               </div>
             </div>
 
@@ -373,7 +387,7 @@ export function ExitPage({ onComplete }: ExitPageProps) {
           <div className="flex gap-4">
             <button
               onClick={resetForm}
-              className="flex-1 py-4 rounded-xl border-2 border-slate-600 text-slate-300 font-semibold hover:bg-slate-700 transition-colors flex items-center justify-center gap-2"
+              className="flex-1 py-4 rounded-xl border-2 border-border text-muted-foreground font-semibold hover:bg-slate-700 transition-colors flex items-center justify-center gap-2"
             >
               <ArrowLeft className="w-5 h-5" />
               Cancelar
@@ -392,18 +406,18 @@ export function ExitPage({ onComplete }: ExitPageProps) {
 
       {/* ENTRADA NO ENCONTRADA */}
       {verificationState === 'not_found' && (
-        <div className="bg-slate-800 rounded-xl p-8 animate-fade-in">
+        <div className={`${theme === 'dark' ? 'bg-slate-800' : 'bg-white'} rounded-xl p-8 animate-fade-in`}>
           <div className="text-center mb-6">
             <div className="w-16 h-16 rounded-full bg-red-500/20 flex items-center justify-center mx-auto mb-4">
               <X className="w-8 h-8 text-red-400" />
             </div>
-            <h2 className="text-xl font-bold text-white mb-2">Entrada No Encontrada</h2>
-            <p className="text-slate-400">{error || 'No se encontró registro de ingreso activo'}</p>
+            <h2 className="text-xl font-bold text-foreground mb-2">Entrada No Encontrada</h2>
+            <p className="text-muted-foreground">{error || 'No se encontró registro de ingreso activo'}</p>
           </div>
           <div className="flex gap-4 max-w-md mx-auto">
             <button
               onClick={resetForm}
-              className="flex-1 py-3 rounded-xl border-2 border-slate-600 text-slate-300 font-medium hover:bg-slate-700 transition-colors"
+              className="flex-1 py-3 rounded-xl border-2 border-border text-muted-foreground font-medium hover:bg-slate-700 transition-colors"
             >
               Nuevo Intento
             </button>
@@ -420,13 +434,13 @@ export function ExitPage({ onComplete }: ExitPageProps) {
       {/* CONDUCTOR NO RECONOCIDO - Fallback a búsqueda manual */}
       {verificationState === 'not_recognized' && (
         <div className="space-y-6 animate-fade-in">
-          <div className="bg-slate-800 rounded-xl p-8">
+          <div className={`${theme === 'dark' ? 'bg-slate-800' : 'bg-white'} rounded-xl p-8`}>
             <div className="text-center mb-6">
               <div className="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4">
                 <User className="w-8 h-8 text-amber-400" />
               </div>
-              <h2 className="text-xl font-bold text-white mb-2">Conductor No Reconocido</h2>
-              <p className="text-slate-400">
+              <h2 className="text-xl font-bold text-foreground mb-2">Conductor No Reconocido</h2>
+              <p className="text-muted-foreground">
                 El conductor no está registrado en el sistema. Puede buscar la placa manualmente.
               </p>
             </div>
@@ -440,9 +454,9 @@ export function ExitPage({ onComplete }: ExitPageProps) {
             )}
           </div>
 
-          <div className="bg-slate-800 rounded-xl p-6">
+          <div className={`${theme === 'dark' ? 'bg-slate-800' : 'bg-white'} rounded-xl p-6`}>
             <div className="text-center mb-4">
-              <h3 className="text-lg font-bold text-white">Búsqueda Manual por Placa</h3>
+              <h3 className="text-lg font-bold text-foreground">Búsqueda Manual por Placa</h3>
             </div>
             <PlateInput
               value={searchPlate}
@@ -466,7 +480,7 @@ export function ExitPage({ onComplete }: ExitPageProps) {
                 font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed
                 ${searchPlate.length >= 4
                   ? 'bg-blue-600 hover:bg-blue-500 text-white'
-                  : 'bg-slate-700 text-slate-400'
+                  : `${theme === 'dark' ? 'bg-slate-700' : 'bg-slate-100'} text-muted-foreground/70`
                 }
               `}
             >
@@ -481,7 +495,7 @@ export function ExitPage({ onComplete }: ExitPageProps) {
           <div className="text-center">
             <button
               onClick={resetForm}
-              className="text-slate-400 hover:text-slate-300 text-sm flex items-center gap-2 mx-auto transition-colors"
+              className="text-muted-foreground hover:text-muted-foreground/80 text-sm flex items-center gap-2 mx-auto transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               Volver a intentar reconocimiento facial
@@ -492,11 +506,11 @@ export function ExitPage({ onComplete }: ExitPageProps) {
 
       {/* ANALIZANDO SALIDA */}
       {verificationState === 'analyzing' && (
-        <div className="bg-slate-800 rounded-xl p-12 text-center animate-fade-in">
+        <div className={`${theme === 'dark' ? 'bg-slate-800' : 'bg-white'} rounded-xl p-12 text-center animate-fade-in`}>
           <div className="w-20 h-20 rounded-full bg-cyan-500/20 flex items-center justify-center mx-auto mb-6">
             <Scan className="w-10 h-10 text-cyan-400 animate-pulse" />
           </div>
-          <h2 className="text-2xl font-bold text-white mb-3">Procesando Salida...</h2>
+          <h2 className="text-2xl font-bold text-foreground mb-3">Procesando Salida...</h2>
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="animate-spin w-6 h-6 border-2 border-cyan-500 border-t-transparent rounded-full" />
             <p className="text-cyan-400">Verificando conductor</p>
@@ -506,14 +520,14 @@ export function ExitPage({ onComplete }: ExitPageProps) {
               <div className="w-24 h-24 rounded-xl overflow-hidden bg-slate-700 mx-auto mb-2 ring-2 ring-cyan-500/50">
                 <img src={foundEntry?.driverPhoto} alt="Registrado" className="w-full h-full object-cover" />
               </div>
-              <p className="text-xs text-slate-400">Registrado</p>
+              <p className="text-xs text-muted-foreground">Registrado</p>
             </div>
             {currentDriverPhoto && (
               <div className="text-center">
                 <div className="w-24 h-24 rounded-xl overflow-hidden bg-slate-700 mx-auto mb-2 ring-2 ring-cyan-500/50">
                   <img src={currentDriverPhoto} alt="Actual" className="w-full h-full object-cover" />
                 </div>
-                <p className="text-xs text-slate-400">Actual</p>
+                <p className="text-xs text-muted-foreground">Actual</p>
               </div>
             )}
           </div>
@@ -522,26 +536,26 @@ export function ExitPage({ onComplete }: ExitPageProps) {
 
       {/* CONDUCTOR NO VERIFICADO - MISMATCH */}
       {verificationState === 'driver_mismatch' && foundEntry && (
-        <div className="bg-slate-800 rounded-xl p-8 animate-fade-in">
+        <div className={`${theme === 'dark' ? 'bg-slate-800' : 'bg-white'} rounded-xl p-8 animate-fade-in`}>
           <div className="text-center mb-6">
             <div className="w-20 h-20 rounded-full bg-red-500/20 flex items-center justify-center mx-auto mb-4 animate-pulse">
               <AlertTriangle className="w-10 h-10 text-red-400" />
             </div>
             <h2 className="text-2xl font-bold text-red-400 mb-2">¡Conductor No Verificado!</h2>
-            <p className="text-slate-400">
+            <p className="text-muted-foreground">
               El reconocimiento facial no pudo verificar al conductor
             </p>
           </div>
 
           <div className="grid grid-cols-2 gap-6 mb-6">
             <div className="text-center">
-              <p className="text-sm text-slate-400 mb-2">Registrado</p>
-              <div className="aspect-square bg-slate-700 rounded-xl overflow-hidden ring-2 ring-slate-600">
+              <p className="text-sm text-muted-foreground mb-2">Registrado</p>
+              <div className="aspect-square bg-slate-700 rounded-xl overflow-hidden ring-2 ring-border">
                 <img src={foundEntry.driverPhoto} alt="Conductor registrado" className="w-full h-full object-cover" />
               </div>
             </div>
             <div className="text-center">
-              <p className="text-sm text-slate-400 mb-2">Actual</p>
+              <p className="text-sm text-muted-foreground mb-2">Actual</p>
               <div className="aspect-square bg-slate-700 rounded-xl overflow-hidden ring-2 ring-red-500/50">
                 {currentDriverPhoto && (
                   <img src={currentDriverPhoto} alt="Conductor actual" className="w-full h-full object-cover" />
@@ -551,7 +565,7 @@ export function ExitPage({ onComplete }: ExitPageProps) {
           </div>
 
           <div className="flex gap-4">
-            <button onClick={resetForm} className="flex-1 py-4 rounded-xl border-2 border-slate-600 text-slate-300 font-semibold hover:bg-slate-700 transition-colors">
+            <button onClick={resetForm} className="flex-1 py-4 rounded-xl border-2 border-border text-muted-foreground font-semibold hover:bg-slate-700 transition-colors">
               Cancelar
             </button>
             <button onClick={handleReportIncident} className="flex-1 py-4 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-500 transition-colors">
@@ -566,7 +580,7 @@ export function ExitPage({ onComplete }: ExitPageProps) {
 
       {/* ÉXITO */}
       {verificationState === 'success' && (
-        <div className="bg-slate-800 rounded-xl p-12 text-center animate-fade-in">
+        <div className={`${theme === 'dark' ? 'bg-slate-800' : 'bg-white'} rounded-xl p-12 text-center animate-fade-in`}>
           <div className={`w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce ${
             driverMatch === false ? 'bg-red-500/20' : 'bg-green-500/20'
           }`}>
@@ -576,7 +590,7 @@ export function ExitPage({ onComplete }: ExitPageProps) {
               <CheckCircle className="w-16 h-16 text-green-400" />
             )}
           </div>
-          <h2 className="text-3xl font-bold text-white mb-2">¡Salida Registrada!</h2>
+          <h2 className="text-3xl font-bold text-foreground mb-2">¡Salida Registrada!</h2>
           <div className={`inline-block rounded-xl px-4 py-2 mb-4 text-sm font-semibold ${
             driverMatch === null
               ? 'bg-yellow-500/20 text-yellow-400'
@@ -591,11 +605,11 @@ export function ExitPage({ onComplete }: ExitPageProps) {
                 : 'Reconocimiento facial: Conductor diferente al registrado'
             }
           </div>
-          <p className="text-slate-400 mb-6">
+          <p className="text-muted-foreground mb-6">
             El vehículo {foundEntry?.licensePlate} ha salido exitosamente
           </p>
           <div className="inline-block bg-slate-700 rounded-xl px-6 py-3">
-            <p className="text-sm text-slate-400">Hora de salida</p>
+            <p className="text-sm text-muted-foreground">Hora de salida</p>
             <p className="text-2xl font-semibold text-green-400">
               {new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}
             </p>
